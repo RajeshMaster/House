@@ -1,0 +1,106 @@
+/* Start Mobile layout table design and Show and Hide Process for all */
+
+@media all and (max-width: 768px) {
+
+	.pagination {
+		font-size: 85%;
+	}
+
+	.pagination1 {
+		font-size:88%;
+	}
+
+	.pagintion2 {
+		margin-left:-10%;
+		font-size: 83%;
+	}
+
+	.pagealign {
+		min-width: 30px;
+	}
+
+	.colschanges {
+		display: none!important;
+	}
+
+	.nodatades1 {
+		display: none!important;
+	}
+
+}
+
+@media all and (min-width:770px) {
+
+	.colschange {
+		display: none!important;
+	}
+
+	.nodatades {
+		display: none!important;
+	}
+
+}
+
+/*End Mobile layout table design design and Show and Hide Process for all */
+
+
+/*Start Mobile layout View Page design*/
+
+@media all and (max-width: 768px) {
+
+	.col-xs-4 {
+		font-size: 82%;
+		display: left;
+		padding: 2px 0;
+		padding-left: 1%;
+		width: 50%;
+	}
+
+	.col-xs-8 {
+		font-size: 82%;
+		display: flex;
+		padding: 2px 0;
+		padding-left: 10%;
+		width: 50%;
+	}
+
+	.textDecNone{
+		font-size: 80%;
+	}
+
+	.h2cnt {
+		font-size: 160%;
+	}
+}
+
+/*End Mobile layout View Page design*/
+
+/*Table design in bank index page*/
+
+.mnheight {
+
+	min-height: 200px !important;
+
+}
+
+/* Start Mobile layout For House View Page */
+
+@media all and (max-width: 768px) {
+	.dispviewMainMobile {
+		width:100%;
+	}
+	.dispviewSubMobile {
+		width:100%;
+	}
+}
+
+@media all and (min-width:770px) {
+	.dispviewMainMobile {
+		width:52%;
+	}
+	.dispviewSubMobile {
+		width:46%;
+	}
+}
+
+/*End Mobile layout For House View Page */

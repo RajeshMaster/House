@@ -1,0 +1,42 @@
+/*Start Mobile layout*/
+
+@media all and (max-width: 768px) {
+
+	.h2cnt {
+		font-size: 150%!important;
+		margin-top: 3%!important;
+	}
+
+	.col-xs-3 {
+		width: 40%;
+		font-size: 80%;
+		margin-left: -10%;
+	}
+
+	.col-xs-9 {
+		width: 60%;
+	}
+
+	.phonebelongsto {
+		width: 65%!important;
+	}
+
+	.phoneloanname {
+		width: 63%!important;
+	}
+
+	.amountdes {
+		font-size: 80%;
+	}
+
+	.selectdes {
+		font-size: 55%;
+	}
+
+	.otherdes {
+		width: 32% !important;
+	}
+
+}
+
+/*End Mobile layout*/

@@ -1,0 +1,80 @@
+/*Start Mobile layout Addedit Page design Expenses,Yettopay,Income*/
+@media all and (max-width: 768px) {
+
+	.expenseshouse {
+		width:90%!important;
+	}
+
+	.expensesbelongsTo {
+		width:70%!important;
+	}
+
+	.subjectlbl {
+		width:73%!important;
+	}
+
+	.incomesublbl{
+		width:43%!important;
+	}
+
+	.incomesubotherslbl {
+		width:43%!important;
+		min-width: 20%;
+	}
+
+	.expensesbill {
+		width:128%!important;
+	}
+
+	.expensesremarks {
+		width:233%!important;
+	}
+
+	.assetsremarks {
+		width:100%!important;
+	}
+
+	.yearlbldes {
+		width:40%!important;
+	}
+
+	.datelbldes {
+		width:30%!important;
+	}
+
+	.h2cnt {
+		font-size: 170%!important;
+		margin-top: 4%!important;
+	}
+
+	.col-xs-3 {
+		 width:40%;
+		 font-size:90%;
+		 margin-left:-10%;
+	}
+
+	.col-xs-9{
+		width:70%;
+	}
+
+	.col-md-3 {
+		 width:32%;
+		 font-size:90%;
+		 margin-left:-10%;
+	}
+
+	.col-md-8 {
+		width: 70%;
+		font-size: 80%;
+		margin-top: -10%!important;
+		margin-left: 27%!important;
+	}
+
+	.monthlbldes {
+		min-width: 12%;
+	}
+
+	.selectdes {
+		font-size: 55%;
+	}
+}

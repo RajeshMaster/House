@@ -1,0 +1,105 @@
+/*Start Mobile layout Addedit & Index Page design Mailcontent*/
+@media all and (max-width: 767px) {
+
+	.mailname {
+		width:110%!important;
+		margin-left:-10%;
+	}
+
+	.mailSubject {
+		width:120%!important;
+		margin-left:-10%;
+		margin-bottom:-30%;
+	}
+
+	.mailheader {
+		width:69%!important;
+		margin-left:-10%;
+	}
+
+	.textareaResizeNone {
+		width: 115%!important;
+		margin-left:-10%;
+	}
+
+	.h2cnt {
+		font-size: 150%!important;
+		margin-top: 5%!important;
+	}
+
+	.buttondes {
+		font-size: 80%!important;
+	}
+
+	.labeldes {
+		width:45.66666667%;
+		 font-size:80%;
+		 margin-left:-10%;
+	}
+
+	.textboxdes {
+		width:58.33333333%;
+	}
+
+	.mailsubjecttextbox {
+		width:58.33333333%;
+	}
+
+	.mailcontenttextbox {
+		width:58.33333333%;
+	}
+
+	.mailhead {
+		display: none;
+	}
+
+	.searchsidebar {
+		margin-top: 44%!important;
+		margin-right: 0.5%!important;
+	}
+
+	.filterdes {
+		margin-left: -1%;
+		
+	}
+
+	.sortposition {
+		margin-bottom: -18%;
+		margin-right: 0%!important;
+		width: 10%;
+	}
+
+	.clearposition{
+		margin-top: 1%!important;
+		margin-right: 33%!important;
+		width: 8%;
+	}
+
+	.pagealign {
+		min-width: 30px;
+	}
+
+	#nodatafound {
+		margin-top: 5%!important;
+	}
+
+	.pagintion2 {
+		margin-left:-2%;
+		font-size: 83%;
+	}
+
+	.pagination {
+		font-size: 85%;
+	}
+
+	.pagination1{
+		font-size:88%;
+	}
+}
+
+@media all and (min-height:1024px) {
+	.mailhead{
+		font-size: 80%;
+	}
+}
+/*End Mobile layout Addedit and Index Page design Mailcontent*/

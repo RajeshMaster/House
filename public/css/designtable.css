@@ -1,0 +1,71 @@
+/*Table Sorting Design process*/
+table thead tr th {text-align: center ! important;}
+
+.CMN_tbltheadcolor {
+	background: #f58142 !important;
+}
+
+.disabled {
+	cursor: none;
+	pointer-events: none;
+	color: gray;
+	text-decoration: none;
+}
+
+.pm0 {
+	padding: 0px;
+	margin: 0px;
+}
+
+.table-striped>tbody>tr:nth-of-type(even) {
+	background-color: #dce3f4;
+}
+
+.table-striped-new>tbody>tr:nth-of-type(odd) {
+	background-color: #72afff;
+}
+
+.h100 {
+	height: 110px !important;
+	width: 105px;
+}
+
+.CMN_sorting {
+	width: 130px  !important;
+	height: 34.5px ! important;
+	line-height: 14px !important;
+	font-size: 12px !important;
+	padding: 0px !important;
+	padding-left: 10px !important; 
+	background-repeat: no-repeat; 
+	background-position:right;
+	background-color: white !important;
+	background-position: right; 
+	-webkit-appearance: none !important;
+	-moz-appearance: none !important;
+	appearance: none !important; 
+}
+
+.fb {
+	color: gray !important;
+}
+
+/*End Sorting Design process*/
+
+/*Button link Hoover process*/
+.textDecNone:hover {
+	text-decoration: none !important;
+}
+/*End Button link Hoover process*/
+
+/* Start Bank addedit page bachnick name field disabled process */
+
+#bankNickName {
+	pointer-events: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	background: none; 
+}
+
+/* End Bank addedit page bachnick name field disabled process */
