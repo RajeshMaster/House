@@ -109,6 +109,9 @@ return [
 	'lbl_pur_amt' => 'Pur. Amt',
 	'lbl_memoreg' => 'Memo Reg',
 	'lbl_memo' => 'Memo',
+	'lbl_belongs_to' => 'Belongs To',
+	'lbl_grandtot' => 'Grand Total',
+	'lbl_date' => 'Date',
 	
 	/*  Bank Module  */
 	'lbl_bankId' => 'Bank Id', 

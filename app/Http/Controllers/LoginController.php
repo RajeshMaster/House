@@ -22,9 +22,9 @@ class LoginController extends Controller
 				Session::put('FirstName',$userName[0]->userName);
 			}
 			if (\Auth::user()->userType == 1) {
-				return Redirect::to('BalSheet/index?mainmenu=menu_balsheet&time='.date('Ymdhis'));
+				return Redirect::to('House/index?mainmenu=menu_house&time='.date('Ymdhis'));
 			} else {
-				return Redirect::to('BalSheet/index?mainmenu=menu_balsheet&time='.date('Ymdhis'));
+				return Redirect::to('House/index?mainmenu=menu_house&time='.date('Ymdhis'));
 			}
 		}
 		return view('login.login',compact('request'));
@@ -92,9 +92,9 @@ class LoginController extends Controller
 							Session::put('FirstName',$userName[0]->userName);
 						}
 						if (\Auth::user()->userType == 1) {
-							return Redirect::to('BalSheet/index?mainmenu=menu_balsheet&time='.date('Ymdhis'));
+							return Redirect::to('House/index?mainmenu=menu_house&time='.date('Ymdhis'));
 						} else {
-							return Redirect::to('BalSheet/index?mainmenu=menu_balsheet&time='.date('Ymdhis'));
+							return Redirect::to('House/index?mainmenu=menu_house&time='.date('Ymdhis'));
 						}
 					}
 				} else {

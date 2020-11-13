@@ -109,6 +109,9 @@ return [
 	'lbl_pur_amt' => '購入額',
 	'lbl_memoreg' => 'Memo Reg',
 	'lbl_memo' => 'Memo',
+	'lbl_belongs_to' => '名義',
+	'lbl_grandtot' => '総額',
+	'lbl_date' => '登録日',
 
 	/*  Start Bank Module  */
 	'lbl_bankId' => '銀行', 
