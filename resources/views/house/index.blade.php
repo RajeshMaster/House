@@ -177,7 +177,7 @@
 						</tr>
 					@empty
 						<tr class="nodatades1">
-							<td class="text-center red" colspan="8">
+							<td class="text-center red" colspan="5">
 								{{ trans('messages.lbl_nodatafound') }}
 							</td>
 						</tr>

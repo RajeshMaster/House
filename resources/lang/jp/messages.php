@@ -2,7 +2,7 @@
 return [
 	/*  Start Common Module  */
 	'lbl_assets' => '物件資産',
-	'lbl_assetsys' => 'Asset Management System',
+	'lbl_assetsys' => 'House Management System',
 	'lbl_assetstypes' => '資産種別',
 	'lbl_login' => 'ログイン',
 	'lbl_logout' => 'ログアウト',

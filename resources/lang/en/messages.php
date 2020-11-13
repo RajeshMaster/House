@@ -2,7 +2,7 @@
 return [
 	/*  Common Module  */
 	'lbl_assets' => 'Assets',
-	'lbl_assetsys' => 'Asset Management System',
+	'lbl_assetsys' => 'House Management System',
 	'lbl_assetstypes' => 'Assets Types',
 	'lbl_login' => 'Login',
 	'lbl_logout' => 'Logout',
