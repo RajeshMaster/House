@@ -254,8 +254,8 @@
 	<fieldset class="mt20 mb20 dispviewMainMobile pull-left tac">
 		<div style="height: 300px !important;">
 			@php
-				$src = "public/uploads/".$details->userId."/House/".$details->houseId."/".$details->image1;
-				$path = "../../../public/uploads/".$details->userId."/House/".$details->houseId."/";
+				$src = $path.$details->userId."/House/".$details->houseId."/".$details->image1;
+				$despath = "../../../".$path.$details->userId."/House/".$details->houseId."/";
 			@endphp
 			<div>
 				<label class="mt20 mb10">
@@ -277,7 +277,7 @@
 				</div>
 				<div class="mt10 mt20">
 					<a class="glyphicon glyphicon-save" style="text-decoration:none !important;"
-						href="javascript:download('{{ $details->image1 }}','{{ $path }}');">
+						href="javascript:download('{{ $details->image1 }}','{{ $despath }}');">
 					</a>
 				</div>
 			</div>

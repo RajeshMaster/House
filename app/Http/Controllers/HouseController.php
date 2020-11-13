@@ -55,6 +55,7 @@ class HouseController extends Controller
 		$totArrVal = array();
 		$date = date("Y-m-d");
 		$yrMnth = date("Y-m");
+		$path = "../AssetsUpload/uploads/";
 		
 		foreach ($houseDetails as $key => $value) {
 			$getCntHouseImg = House::getCntHouseImg($request,$value->houseId);
@@ -64,6 +65,7 @@ class HouseController extends Controller
 		return view('house.index', ['houseDetails' => $houseDetails,
 									'sortarray' => $sortarray,
 									'houseArrVal' => $houseArrVal,
+									'path' => $path,
 									'request' => $request]);
 
 	}
@@ -105,6 +107,7 @@ class HouseController extends Controller
 		}
 		// echo "<pre>";print_r($subCatdetails);echo "</pre>";exit();
 		$details = House::fnGetHouseDetails($request,1);
+		$path = "../AssetsUpload/uploads/";
 		if (empty($details)) {
 			return Redirect::to('House/index?mainmenu=menu_house&time='.date('YmdHis'));
 		} else {
@@ -115,6 +118,7 @@ class HouseController extends Controller
 									'houseImgdetails' => $houseImgdetails,
 									'mainCatdetails' => $mainCatdetails,
 									'subCatdetails' => $subCatdetails,
+									'path' => $path,
 									'request' => $request]);
 
 	}
@@ -202,14 +206,15 @@ class HouseController extends Controller
 			$ifile = $_FILES["image1"]["name"];
 			$fileType = explode(".",$ifile);
 			$fileName = $houseCode.".".end($fileType);
-			$path = base_path() . "/public/uploads/".$request->userId."/House/".$houseCode;
+			// $path = base_path() . "/public/uploads/".$request->userId."/House/".$houseCode;
+			$path = "../AssetsUpload/uploads/".$request->userId."/House/".$houseCode;
 			if(!is_dir($path)) {
 				mkdir($path, 0777,true);
 			}
 
 			$path = $path."/";
 			if ($request->file_name_temp != '') {
-				unlink($path."/".$request->file_name_temp);
+				// unlink($path."/".$request->file_name_temp);
 			}
 
 			$request->image1->move($path, $fileName);
@@ -318,7 +323,8 @@ class HouseController extends Controller
 			// $filename = $request->image1->getClientOriginalName();
 			$ifile = $_FILES["imgfile"]["name"];
 			$fileType = explode(".",$ifile);
-			$path = base_path() . "/public/uploads/".$request->userId."/House/".$request->houseId."/".$mainName."/".$subName;
+			// $path = base_path() . "/public/uploads/".$request->userId."/House/".$request->houseId."/".$mainName."/".$subName;
+			$path = "../AssetsUpload/uploads/".$request->userId."/House/".$request->houseId."/".$mainName."/".$subName;
 			if(!is_dir($path)) {
 				mkdir($path, 0777,true);
 			}
@@ -394,6 +400,7 @@ class HouseController extends Controller
 		$housePrevId = House::getHouseMinId($request);
 		$houseNextId = House::getHouseMaxId($request);
 		$houseImgdetails = House::fnGetHouseImgDtls($request);
+		$path = "../AssetsUpload/uploads/";
 		if ($request->fileImage == "index") {
 			if(isset($houseImgdetails[0])) {
 				$request->fileImage = $houseImgdetails[0]->mainCategory.$houseImgdetails[0]->subCategory.$houseImgdetails[0]->id;
@@ -402,7 +409,8 @@ class HouseController extends Controller
 		return view('house.imgViewPopup',['request' => $request,
 											'houseImgdetails' => $houseImgdetails,
 											'housePrevId' => $housePrevId,
-											'houseNextId' => $houseNextId
+											'houseNextId' => $houseNextId,
+											'path' => $path
 										]);
 	}
 

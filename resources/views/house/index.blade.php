@@ -110,7 +110,7 @@
 
 					@forelse($houseDetails as $key => $house)
 						@php
-							$src = "public/uploads/".$house->userId."/House/".$house->houseId."/".$house->image1;
+							$src = $path.$house->userId."/House/".$house->houseId."/".$house->image1;
 						@endphp
 						<tr>
 							<td class="tac">
@@ -200,7 +200,7 @@
 
 			@forelse($houseDetails as $key => $house)
 				@php
-					$src = "public/uploads/".$house->userId."/House/".$house->houseId."/".$house->image1;
+					$src = $path.$house->userId."/House/".$house->houseId."/".$house->image1;
 				@endphp
 
 				<table class = "table table-bordered mt10 mb10 colschange">

@@ -65,8 +65,8 @@
 			<div class="mt20 mb20 tac">
 				@foreach($houseImgdetails as $key => $image)
 					<?php
-						$housePath = "public/uploads/".$request->userId."/House/".$request->houseId."/".$image->MainImgName."/".$image->SubImgName."/".$image->fileName;
-						$dwnldPath = "../../../public/uploads/".$request->userId."/House/".$request->houseId."/".$image->MainImgName."/".$image->SubImgName."/";
+						$housePath = $path.$request->userId."/House/".$request->houseId."/".$image->MainImgName."/".$image->SubImgName."/".$image->fileName;
+						$dwnldPath = "../../../".$path.$request->userId."/House/".$request->houseId."/".$image->MainImgName."/".$image->SubImgName."/";
 					?>
 					@php $ImageName = $image->mainCategory.$image->subCategory.$image->id;
 						$imageId = $image->id;
