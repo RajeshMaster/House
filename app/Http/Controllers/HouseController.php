@@ -3,7 +3,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Model\House;
-use App\Model\Loan;
 use App\Model\Common;
 use Session;
 use Redirect;
@@ -43,8 +42,7 @@ class HouseController extends Controller
 		}
 		$sortarray = array("purchaseDate" => trans('messages.lbl_purch_date'),
 							"houseName" => trans('messages.lbl_housename'),
-							"belongsTo" => trans('messages.lbl_belongsTo'),
-							"bankId" => trans('messages.lbl_bankId'));
+							"belongsTo" => trans('messages.lbl_belongsTo'));
 
 		if ($request->userId == "") {
 			$request->userId = Auth::user()->userId;
@@ -55,50 +53,10 @@ class HouseController extends Controller
 		// Used for display
 		$houseArrVal = array();
 		$totArrVal = array();
-		$loanIdArr = array();
-		$remainLoanTotal  = "";
 		$date = date("Y-m-d");
 		$yrMnth = date("Y-m");
 		
 		foreach ($houseDetails as $key => $value) {
-			$loanBalance = 0;
-			if ($value->loanFlg == 1) {
-				$loanDetails = House::fnGetLoanDetails($value->houseId);
-				if (!empty($loanDetails)) {
-					// to avoid same loan repeatation
-					if (!in_array($loanDetails[0]->loanId, $loanIdArr)) {
-						array_push($loanIdArr, $loanDetails[0]->loanId);
-						$currEmiData = Loan::fnGetEMIData($loanDetails[0]->loanId,"","",$yrMnth);
-						// print_r($currEmiData);exit();
-						$nextEmiData = Loan::fnGetEMIData($loanDetails[0]->loanId,$date,"next");
-						// For active Loan
-						if (!empty($currEmiData)) {		
-							$loanBalance = $currEmiData[0]->loanBalance/10000;
-						} 
-						// For future Loan
-						else if(!empty($nextEmiData)){		
-							$loanBalance = $loanDetails[0]->loanAmount;
-						} 
-						// for expired loan
-						else { 	
-							$prevEmiData = Loan::fnGetEMIData($loanDetails[0]->loanId,$date,"prev");
-							if (!empty($prevEmiData)) {
-								end($prevEmiData); // for lask key of array
-								$loanBalance = $prevEmiData[key($prevEmiData)]->loanBalance;
-							} 
-						}
-					}
-				}
-				$houseArrVal[$value->houseId]['loanBalance'] = $loanBalance;
-				$remainLoanTotal += $loanBalance;
-				$assetAmt = "";
-				
-			}
-			$houseArrVal[$value->houseId]['loanBalance'] = $loanBalance;
-			if ($value->currentValue != "") {
-				$assetAmt = $value->currentValue - $loanBalance; 
-			}
-			$houseArrVal[$value->houseId]['assetAmt'] = $assetAmt;
 			$getCntHouseImg = House::getCntHouseImg($request,$value->houseId);
 			$houseArrVal[$value->houseId]['countImg'] = count($getCntHouseImg);
 			

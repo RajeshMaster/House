@@ -24,6 +24,7 @@ return [
 	'lbl_sno' => 'S.No',
 	'lbl_belongsTo' => 'Belongs To',
 	'lbl_search' => 'Search',
+	'lbl_expenses' => 'Expenses',
 	
 	/*  User Module  */
 	'lbl_user' => 'User',

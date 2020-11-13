@@ -24,6 +24,7 @@ return [
 	'lbl_sno' => '連番',
 	'lbl_belongsTo' => '名義',
 	'lbl_search' => '検索',
+	'lbl_expenses' => '支出',
 
 	/*  User Module  */
 	'lbl_user' => 'ユーザ',

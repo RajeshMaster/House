@@ -85,14 +85,11 @@
 		<div class="box100per tableShrink pt10 mnheight mb0">
 			<table class="table-striped table footable table-bordered mt10 mb10 colschanges">
 				<colgroup>
-					<col width="4%">
+					<col width="5%">
 					<col width="10%">
 					<col width="">
+					<col width="14%">
 					<col width="12%">
-					<col width="10%">
-					<col width="10%">
-					<col width="10%">
-					<col width="10%">
 				</colgroup>
 				<thead class="CMN_tbltheadcolor" >
 					<tr class="CMN_tbltheadcolor">
@@ -101,9 +98,6 @@
 						<th class="tac">{{ trans('messages.lbl_address') }}</th>
 						<th class="tac">{{ trans('messages.lbl_purch_amount')."・".trans('messages.lbl_date')}}</th>
 						<th class="tac">{{ trans('messages.lbl_curr_value') }}</th>
-						<th class="tac">{{ trans('messages.lbl_remain_loanamt') }}</th>
-						<th class="tac">{{ trans('messages.lbl_asset_amt') }}</th>
-						<th class="tac">{{ trans('messages.lbl_bank') }}</th>
 					</tr>
 				</thead>
 				<tbody class="tablealternateclr">
@@ -112,8 +106,6 @@
 						$i = 1; 
 						$purchTotal = 0;
 						$currValTotal = 0;
-						$remainLoanTotal = 0;
-						$assetAmtTotal = 0;
 					@endphp
 
 					@forelse($houseDetails as $key => $house)
@@ -177,34 +169,10 @@
 									{{ ($house->currentValue != "" ? number_format($house->currentValue).' 万' : '')}}
 								</label>
 							</td>
-
-							<td class="tar vam">
-								@if($house->loanFlg == 1)
-									<label class="mt10" style="font-size: 18px;">
-										{{ number_format($houseArrVal[$house->houseId]['loanBalance']) }} 万
-									</label>
-								@endif
-							</td>
-
-							<td class="tar vam">
-								@if($houseArrVal[$house->houseId]['assetAmt'] != "")
-									<label class="mt10" style="font-size: 18px;">
-										{{ number_format($houseArrVal[$house->houseId]['assetAmt']) }} 万
-									</label>
-								@endif	
-							</td>
-
-							<td class="vam">
-								@if($house->loanFlg == 1)
-									<label class="mt10">{{ $house->nickName }}</label>
-								@endif
-							</td>
-
+							
 							@php
 								$purchTotal += $house->purchaseAmount; 
 								$currValTotal += $house->currentValue; 
-								$remainLoanTotal +=	$houseArrVal[$house->houseId]['loanBalance']; 
-								$assetAmtTotal += $houseArrVal[$house->houseId]['assetAmt']; 
 							@endphp
 						</tr>
 					@empty
@@ -220,13 +188,6 @@
 							<td colspan="3" class="tar">{{ trans('messages.lbl_grandtot') }}</td>
 							<td class="totAmt tar">{{ number_format($purchTotal) }} 万</td>
 							<td class="totAmt tar">{{ number_format($currValTotal) }} 万</td>
-							<td class="totAmt tar pr20">
-								{{ number_format($remainLoanTotal) }} 万
-							</td>
-							<td class="totAmt tar pr20">
-								{{ number_format($assetAmtTotal) }} 万
-							</td>
-							<td></td>
 						</tr>
 					@endif
 
@@ -275,7 +236,7 @@
 					</thead>
 					<tbody class="">
 						<tr>
-							<td class="tac" style="max-width: 500px;min-height: 500px;" rowspan="5">
+							<td class="tac" style="max-width: 300px;min-height: 300px;" rowspan="3">
 								@php $fileType = explode(".",$house->image1); @endphp
 								@if(end($fileType) == "pdf")
 									@php $pdfImg = "public/images/pdfIcon.png"; @endphp
@@ -316,28 +277,6 @@
 									{{ ($house->currentValue != "" ? number_format($house->currentValue).' 万' : '')}}
 								</label>
 							</td>
-						</tr>
-						<tr>
-							<td class="vam">
-								{{ trans('messages.lbl_remaining') }}
-							</td>	
-							<td class="vam">
-								@if($house->loanFlg == 1)
-									<label class="mt10">
-										{{ number_format($houseArrVal[$house->houseId]['loanBalance']) }} 万
-									</label>
-								@endif
-							</td>	
-						</tr>
-						<tr>
-							<td class="vam">
-								{{ trans('messages.lbl_bank') }}
-							</td>
-							<td class="vam">
-								@if($house->loanFlg == 1)
-									<label class="mt10">{{ $house->nickName }}</label>
-								@endif
-							</td>		
 						</tr>
 						<tr>
 							<td class="vam" colspan="3">
