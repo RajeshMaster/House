@@ -16,6 +16,7 @@ Route::group(['prefix'=>'/'], function() {
 // LOGIN PAGE
 Route::get('login', 'LoginController@index');
 
+
 // LOGIN PROCESS
 Route::post('login', 'LoginController@authenticate');
 Route::get('Login/forgetpassword', 'Auth\PasswordController@showLinkRequestForm');
