@@ -13,7 +13,7 @@ function pageLimitClick(pagelimitval) {
 function mailview(mailid){
 	pageload();
 	$('#mailid').val(mailid);
-	$('#mailstatus').attr('action', '../Mail/mailview'+'?mainmenu=menu_mail&time='+datetime);
+	$('#mailstatus').attr('action', '../Mail/mailview'+'?mainmenu=menu_mailstatus&time='+datetime);
 	$("#mailstatus").submit();
 }
 
@@ -23,14 +23,14 @@ function fnmailfilter(filval){
 	$('#plimit').val('');
 	$('#page').val('');
 	$('#filval').val(filval);
-	$('#mailstatus').attr('action', '../Mail/index'+'?mainmenu=menu_mail&time='+datetime);
+	$('#mailstatus').attr('action', '../Mail/index'+'?mainmenu=menu_mailstatus&time='+datetime);
 	$("#mailstatus").submit();
 }
 
 // To Mail Status Index Back
 function fnredirectmailstatus() {
 	pageload();
-	$('#mailView').attr('action', '../Mail/index'+'?mainmenu=menu_mail&time='+datetime); 
+	$('#mailView').attr('action', '../Mail/index'+'?mainmenu=menu_mailstatus&time='+datetime); 
 	$("#mailView").submit();
 }
 

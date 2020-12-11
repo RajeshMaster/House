@@ -376,7 +376,7 @@ body {
 												$request->mainmenu == "menu_mailstatus") 
 												class="active" 
 											@endif>
-											<a class="pageload" href="{{ url('Mail/index?mainmenu=menu_mail&time='.date('Ymdhis')) }}" style="text-decoration: none !important;">&nbsp;&nbsp;{{ trans('messages.lbl_mailstatus') }}</a>
+											<a class="pageload" href="{{ url('Mail/index?mainmenu=menu_mailstatus&time='.date('Ymdhis')) }}" style="text-decoration: none !important;">&nbsp;&nbsp;{{ trans('messages.lbl_mailstatus') }}</a>
 										</li>
 									</ul>
 								</li>
@@ -562,13 +562,13 @@ body {
 								{{ trans('messages.lbl_house') }}</a>
 							</div>
 							@endif
-							@if(isset($request->mainmenu) && $request->mainmenu == "menu_mail")
+							@if(isset($request->mainmenu) && ($request->mainmenu == "menu_mail" || $request->mainmenu == "menu_mailstatus"))
 							<div id="mail_sub_1">
 								<a class="pageload" href="{{ url('Mail/mailcontent?mainmenu=menu_mail&time='.date('Ymdhis')) }}">
 								{{ trans('messages.lbl_mailcontent') }}</a>
 							</div>
 							<div id="mail_sub_2">
-								<a class="pageload" href="{{ url('Mail/index?mainmenu=menu_mail&time='.date('Ymdhis')) }}">
+								<a class="pageload" href="{{ url('Mail/index?mainmenu=menu_mailstatus&time='.date('Ymdhis')) }}">
 								{{ trans('messages.lbl_mailstatus') }}</a>
 							</div>
 							@endif

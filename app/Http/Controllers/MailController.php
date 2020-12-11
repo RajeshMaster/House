@@ -57,7 +57,7 @@ class MailController extends Controller {
 	*/
 	public function mailview(Request $request) {
 		if ($request->mailid =="") {
-			return Redirect::to('Mail/index?menuid=menu_mail&time='.date('YmdHis'));
+			return Redirect::to('Mail/index?mainmenu=menu_mailstatus&time='.date('YmdHis'));
 		}
 		$mailView = Mail::getMailview($request);
 		return view('mail.mailView',['request' => $request,
@@ -109,12 +109,12 @@ class MailController extends Controller {
 						'mailName' =>trans('messages.lbl_mailname'),];
 		$mailcontent = Mail::getMailcontent($request);
 		return view('mail.contentindex' ,compact('request',
-											'mailcontent',
-											'sortarray', 
-											'disabledall',
-											'disableduse',
-											'disablednotuse',
-											'contenttotal'));
+												'mailcontent',
+												'sortarray', 
+												'disabledall',
+												'disableduse',
+												'disablednotuse',
+												'contenttotal'));
 	}
 
 	/**
@@ -171,8 +171,6 @@ class MailController extends Controller {
 			return Redirect::to('Mail/mailcontent?mainmenu=menu_mail&time='.date('YmdHis'));
 		}
 		$contentview = Mail::getMailcontentview($request);
-		return view('mail.contentview' ,compact('request',
-											'contentview'
-											));
+		return view('mail.contentview' ,compact('request','contentview'));
 	}
 }
