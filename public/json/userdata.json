@@ -1,0 +1,22 @@
+[
+	{
+		"userId": "HMS0001",
+		"firstName": "sundar",
+		"lastName": "sastha",
+		"password": "12",
+		"gender": "1",
+		"dob": "1994-02-02",
+		"email": "sundarasastha.c@gmail.com",
+		"mobileNo": "9322323233"
+	},
+	{
+		"userId": "HMS0002",
+		"firstName": "Sarath",
+		"lastName": "Kumar",
+		"password": "12",
+		"gender": "1",
+		"dob": "1999-05-01",
+		"email": "t4ssscesarath@gmail.com",
+		"mobileNo": "9576655454"
+	}
+]

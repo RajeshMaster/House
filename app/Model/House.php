@@ -64,7 +64,7 @@ class House extends Model {
 	**/
 	public static function fnGetUserDetails($userId){
 		$db = DB::connection('mysql');
-		$query = $db->table('ams_users')
+		$query = $db->table('hms_users')
 					->select('*')
 					->where('userId', '=', $userId)
 					->get();

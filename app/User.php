@@ -12,7 +12,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $connection = '';
-    protected $table = "ams_login";
+    protected $table = "hms_login";
     protected $fillable = [
         'UserId', 'email', 'password',
     ];

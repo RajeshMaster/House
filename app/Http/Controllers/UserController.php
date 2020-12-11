@@ -16,6 +16,7 @@ use Auth;
 class UserController extends Controller {
 
 	const MAIL_ID = "MAIL0001";
+
 	/** Userindex Page view process
 	*  @author sarath 
 	*  @param $request
@@ -67,68 +68,49 @@ class UserController extends Controller {
 	*  @author sarath 
 	*  @param $request
 	*  Created At 2020/08/20
+	sastha
 	*/
-	public function register(Request $request) {
-		return view('user.register',compact('request'));
-	}
 
-	/** Addedit and Mail send process in Register page
-	*  @author sarath 
-	*  @param $request
-	*  Created At 2020/08/20
-	*/
-	public function addeditprocess(Request $request) {
-		//update process
-		if($request->editid != "") {
-			$updateuser = User::Updateuserdetails($request);
-			if($updateuser) {
-				Session::flash('message', 'Updated Sucessfully!');
-				Session::flash('type', 'alert-success');
-			} else {
-				Session::flash('danger', 'Updated Unsucessfully!'); 
-				Session::flash('type', 'alert-danger'); 
+	public function register(Request $request) {
+		$jsonarray = json_decode(file_get_contents(base_path() . '/public/json/userdata.json'));
+		foreach ($jsonarray as $jsonkey => $jsonvalue) {
+			$visiturl = Config::get('constants.CONST_MAIL');
+			$signature = Config::get('constants.CONST_SIGNATURE');
+
+			// Mail Process
+			$get_mail_content =  Common::get_mail_content(UserController::MAIL_ID);
+			foreach ($get_mail_content as $key => $value) {
+				$mailcontent['name'] = $jsonvalue->firstName."  ".$jsonvalue->lastName;
+				$mailcontent['userid'] = $jsonvalue->userId;
+				$mailcontent['password'] = $jsonvalue->password;
+				$mailcontent['subject'] = $value->subject;
+				$mailcontent['header'] = $value->header;
+				$value->content = str_replace("LLLLL",$jsonvalue->userId,$value->content);
+				$value->content = str_replace("PPPPP",$jsonvalue->password,$value->content);
+				$value->content = str_replace("MMMMM",$jsonvalue->mobileNo,$value->content);
+				$mailcontent['content'] = $value->content;
+				$mailcontent['contactno'] = $jsonvalue->mobileNo;
 			}
-			return Redirect::to('User/profile?mainmenu='.$request->mainmenu.'&time='.date('YmdHis'));
+			$content = $mailcontent['subject'];
+			$send = Mail::send('commontemplate/mail',compact('mailcontent','visiturl','signature'), 
+				function($message) use ($request,$content,$jsonvalue) {	
+					$message->from('staff@microbit.co.jp','MICROBIT');
+					$message->to($jsonvalue->email,$jsonvalue->firstName)
+							->subject($content);
+			});
+			$candidate_view = View::make('commontemplate/mail',
+								compact('mailcontent',
+										'visiturl',
+										'signature'));
+			$contentsCandidate = $candidate_view->render();
+			$insUserData = User::insUserData($request,$jsonvalue,$mailcontent,$contentsCandidate); 
 		}
-		//End Update process
-		$Usercode = "AMS0001";
-		$generateUserId = User::getcount();
-		if (!empty($generateUserId)) {
-			$Usercode = $generateUserId[0]->Usercode;
-		}
-		$visiturl = Config::get('constants.CONST_MAIL');
-		$signature = Config::get('constants.CONST_SIGNATURE');
-		// Mail Process
-		$get_mail_content =  Common::get_mail_content(UserController::MAIL_ID);
-		foreach ($get_mail_content as $key => $value) {
-			$mailcontent['name'] = $request->firstname."  ".$request->lastname;
-			$mailcontent['userid'] = $Usercode;
-			$mailcontent['password'] = $request->password;
-			$mailcontent['subject'] = $value->subject;
-			$mailcontent['header'] = $value->header;
-			$value->content = str_replace("LLLLL",$Usercode,$value->content);
-			$value->content = str_replace("PPPPP",$request->password,$value->content);
-			$value->content = str_replace("MMMMM",$request->mobileno,$value->content);
-			$mailcontent['content'] = $value->content;
-			$mailcontent['contactno'] = $request->mobileno;
-		}
-		$content = $mailcontent['subject'];
-		$send = Mail::send('commontemplate/mail',compact('mailcontent','visiturl','signature'), 
-			function($message) use ($request,$content) {	
-				$message->from('staff@microbit.co.jp','MICROBIT');
-				$message->to($request->emailid,$request->firstname)->subject($content);
-		});
-		$candidate_view = View::make('commontemplate/mail',
-							compact('mailcontent',
-									'visiturl',
-									'signature'));
-		$contentsCandidate = $candidate_view->render();
-		$insert = User::insertRec($request,$Usercode,$mailcontent,$contentsCandidate);
-		if($insert) {
-			Session::flash('message', 'Registered and Mail send Sucessfully!');
+		
+		if($insUserData) {
+			Session::flash('success', 'Registered and Mail send Successfully!');
 			Session::flash('type', 'alert-success'); 
 		} else {
-			Session::flash('danger', 'Registered Unsucessfully!');
+			Session::flash('danger', 'Registered Unsuccessfully!');
 			Session::flash('type', 'alert-danger'); 
 		}
 		return Redirect::to('/');
@@ -169,27 +151,15 @@ class UserController extends Controller {
 		return view('user.userprofileview',compact('request','profileview'));
 	}
 
-	/** User Register page view process in edit
-	*  @author sarath 
-	*  @param $request
-	*  Created At 2020/08/21
-	*/
-	public function useredit(Request $request) {
-		if(!isset($request->editflg)){
-			return Redirect::to('User/profile?mainmenu='.$request->mainmenu.'&time='.date('YmdHis'));
-		}
-		$useredit = User::editview($request->editid);
-		return view('user.register',compact('request','useredit'));
-	}
-
 	/** Verify login check process
 	*  @author sastha 
 	*  @param $request
 	*  Created At 2020/08/24
+	sastha
 	*/
 	public function verifyLoginCheck(Request $request) {
 		$verifyFlg = User::updVerifyFlg($request);
-		Session::flash('message', 'Email Verified Sucessfully!');
+		Session::flash('success', 'Email Verified Sucessfully!');
 		Session::flash('type', 'alert-success');
 		return Redirect::to('/');
 	}

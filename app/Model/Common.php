@@ -17,10 +17,10 @@ class Common extends Model {
 	* @author Sastha
 	* @return Object to particular selected value
 	* Created At 2020/08/19
-	*
+	* sastha
 	*/
 	public static function fnGetDataFromOtherTable($userId,$userType) {
-			$userName = DB::TABLE('ams_users')
+			$userName = DB::TABLE('hms_users')
 						->SELECT('lastName AS userName')
 						->WHERE('userId',$userId)
 						->WHERE('userType',$userType)
@@ -33,9 +33,10 @@ class Common extends Model {
 	 *  @author Sastha 
 	 *  @param $request
 	 *  Created At 2020/08/19
+	 * sastha
 	 **/
 	public static function get_mail_content($mailId) {
-		$get_query = DB::TABLE('ams_mailcontent')
+		$get_query = DB::TABLE('hms_mailcontent')
 					->SELECT('subject',
 							 'header',
 							 'content')
@@ -85,10 +86,11 @@ class Common extends Model {
 	*  @author Sastha.
 	*  Created At 2020/08/24
 	**/
+	//sastha
 	public static function fnUpdateLoginLog($request) {
 		DB::beginTransaction();
 		try {
-			$updUserlog = DB::TABLE('ams_login')
+			$updUserlog = DB::TABLE('hms_login')
 					->WHERE('userId', '=', Auth::user()->userId)
 					->update(['loginStatus' => 1]);
 			DB::commit();       
@@ -103,11 +105,12 @@ class Common extends Model {
 	*  @author Sastha  
 	*  Created At 2020/08/24
 	**/
+	//sastha
 	public static function fnUpdateLogoutLog() {
 		 // dd(Session::all());
 		DB::beginTransaction();
 		try {
-			$updUserlog = DB::TABLE('ams_login')
+			$updUserlog = DB::TABLE('hms_login')
 					->WHERE('userId', '=', Auth::user()->userId)
 					->update(['loginStatus' => 0 ]);
 			DB::commit();       
@@ -122,6 +125,7 @@ class Common extends Model {
 	* @author Sastha
 	* @param $userData
 	* Created At 2020/08/24
+	sastha
 	**/
 	public static function fnGetLogin($userData){
 		if (isset($userData['userId'])) {
@@ -132,7 +136,7 @@ class Common extends Model {
 			$userId = "";
 		}
 		
-		$get_query = DB::TABLE('ams_login')
+		$get_query = DB::TABLE('hms_login')
 					->SELECT('verifyFlg','email','userType')
 					->WHERE('userId',$userId)
 					->ORWHERE('email',$userId)
