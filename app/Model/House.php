@@ -21,7 +21,7 @@ class House extends Model {
 		$db = DB::connection('mysql');
 		$query = $db->table('ams_house_details as house')
 					->select('house.*','familyMst.id as familyId','familyMst.familyName','bankMst.nickName')
-					->LEFTJOIN('ams_family_master AS familyMst','house.belongsTo','=','familyMst.id')
+					->LEFTJOIN('hms_family_master AS familyMst','house.belongsTo','=','familyMst.id')
 					->LEFTJOIN('ams_bankname_master AS bankMst','house.bankId','=','bankMst.id')
 					->where('house.userId', '=', $request->userId)
 					->where('house.soldFlg', '=', 0)
@@ -187,7 +187,7 @@ class House extends Model {
 	**/
 	public static function fnGetBuildingName($orderId) {
 		$db = DB::connection('mysql');
-		$query = $db->table('ams_master_buildingname')
+		$query = $db->table('hms_master_buildingname')
 						->select('orderId','buildingName')
 						->where('orderId','=',$orderId)
 						->get();
@@ -205,7 +205,7 @@ class House extends Model {
 	* Created At 2020/09/10
 	**/
 	public static function fnGetMainImageName(){
-		$query = DB::TABLE('ams_master_houseimg_main')
+		$query = DB::TABLE('hms_master_houseimg_main')
 					->SELECT('*')
 					->WHERE('delFlg',0)
 					->ORDERBY('OrderId', 'ASC')
@@ -221,7 +221,7 @@ class House extends Model {
 	**/
 	public static function fnGetSubImageName($mainImageId) {
 		$db = DB::connection('mysql');
-		$result = $db->TABLE('ams_master_houseimg_sub')
+		$result = $db->TABLE('hms_master_houseimg_sub')
 					->select('*')
 					->WHERE('imageId', '=', $mainImageId)
 					->ORDERBY('OrderId', 'ASC')
@@ -249,7 +249,7 @@ class House extends Model {
 	**/
 	public static function getMainImgName($mainImageId) {
 		$db = DB::connection('mysql');
-		$result = $db->TABLE('ams_master_houseimg_main')
+		$result = $db->TABLE('hms_master_houseimg_main')
 					->select('*')
 					->WHERE('id', '=', $mainImageId)
 					->get();
@@ -264,7 +264,7 @@ class House extends Model {
 	**/
 	public static function getSubImgName($subImageId) {
 		$db = DB::connection('mysql');
-		$result = $db->TABLE('ams_master_houseimg_sub')
+		$result = $db->TABLE('hms_master_houseimg_sub')
 					->select('*')
 					->WHERE('id', '=', $subImageId)
 					->get();
@@ -302,8 +302,8 @@ class House extends Model {
 					->SELECT('images.*','mainImg.imageName as MainImgName','subImg.imageName as SubImgName')
 					->WHERE('images.userId', '=' , $request->userId)
 					->WHERE('images.houseId', '=', $request->houseId)
-					->LEFTJOIN('ams_master_houseimg_main AS mainImg','images.mainCategory','=','mainImg.id')
-					->LEFTJOIN('ams_master_houseimg_sub AS subImg','images.subCategory','=','subImg.id')
+					->LEFTJOIN('hms_master_houseimg_main AS mainImg','images.mainCategory','=','mainImg.id')
+					->LEFTJOIN('hms_master_houseimg_sub AS subImg','images.subCategory','=','subImg.id')
 					->ORDERBY('images.mainCategory', 'ASC')
 					->ORDERBY('images.subCategory', 'ASC')
 					->GET();

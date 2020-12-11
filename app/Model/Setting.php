@@ -284,10 +284,7 @@ class Setting extends Model {
 	}
 
 	public static function checkforselecttext($request) {
-		if ($request->tablename == "ams_master_expenses_sub") {
-			$type1 = 'categoryId';
-			$type2 = 'category';
-		} else if($request->tablename == "ams_master_houseimg_sub") {
+		if($request->tablename == "hms_master_houseimg_sub") {
 			$type1 = 'imageId';
 			$type2 = 'imageName';
 		}
@@ -374,11 +371,10 @@ class Setting extends Model {
 	public static function fnGetHouses($userId,$viewFlg) {
 
 		$db = DB::connection('mysql');
-		$query = $db->table('ams_house_details as house')
+		$query = $db->table('hms_house_details as house')
 					->select('house.*','familyMst.familyName')
-					->LEFTJOIN('ams_family_master AS familyMst','house.belongsTo','=','familyMst.id')
+					->LEFTJOIN('hms_family_master AS familyMst','house.belongsTo','=','familyMst.id')
 					->where('house.userId',$userId)
-					->where('house.loanFlg',0)
 					->where('house.soldFlg',$viewFlg)
 					->where('house.delFlg',0)
 					->orderBy('house.belongsTo')
@@ -397,7 +393,7 @@ class Setting extends Model {
 	
 	public static function fnUpdateHouseSold($request) {
 		$db = DB::connection('mysql');
-		$update = $db->table('ams_house_details')
+		$update = $db->table('hms_house_details')
 					->where('houseId', $request->houseId)
 					->update(['soldFlg' => 1,
 							  'soldDate' => $request->soldDate,
@@ -473,13 +469,10 @@ class Setting extends Model {
 	**/
 
 	public static function fnExistschktwotext($request) {
-		if ($request->tablename == "ams_family_master") {
+		if ($request->tablename == "hms_family_master") {
 			$type1 = 'familyName';
 			$type2 = 'nickName';
-		} else if($request->tablename == "ams_bankname_master") {
-			$type1 = 'bankName';
-			$type2 = 'nickName';
-		}
+		} 
 		$db = DB::connection('mysql');
 		$result= $db->TABLE($request->tablename)
 					->select($type1,$type2)
@@ -500,7 +493,7 @@ class Setting extends Model {
 	**/
 
 	public static function fnExistschkthreetext($request) {
-		if ($request->tablename == "ams_master_buildingname") {
+		if ($request->tablename == "hms_master_buildingname") {
 			$type1 = 'buildingName';
 			$type2 = 'buildOnDate';
 			$type3 = 'buildingAddress';

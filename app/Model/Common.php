@@ -145,40 +145,12 @@ class Common extends Model {
 	}
 
 	/**
-	* To Get Bank Name
-	* @author Sastha
-	* Created At 2020/08/27
-	**/
-	public static function fnGetBankName(){
-		$query = DB::TABLE('ams_bankname_master')
-					->SELECT('*')
-					->WHERE('delFlg',0)
-					->get();
-		return $query;
-	}
-
-	/**  
-	* To Get Bank Nick Name
-	*  @author Sastha 
-	*  @param $bankId
-	*  Created At 2020/08/27
-	**/
-	public static function fnGetBankNickName($bankId) {
-		$db = DB::connection('mysql');
-		$result = $db->TABLE('ams_bankname_master')
-					->select('*')
-					->WHERE('id', '=', $bankId)
-					->get();
-		return $result;
-	}
-
-	/**
 	* To Get Family Member Name
 	* @author Sastha
 	* Created At 2020/08/27
 	**/
 	public static function fnGetFamilyMembers(){
-		$query = DB::TABLE('ams_family_master')
+		$query = DB::TABLE('hms_family_master')
 					->SELECT('*')
 					->WHERE('delFlg',0)
 					->get();
@@ -191,25 +163,13 @@ class Common extends Model {
 	* Created At 2020/08/27
 	**/
 	public static function fnGetBuildingName(){
-		$query = DB::TABLE('ams_master_buildingname')
+		$query = DB::TABLE('hms_master_buildingname')
 					->SELECT('*')
 					->WHERE('delFlg',0)
 					->get();
 		return $query;
 	}
 
-	/**
-	* To Get Assets Types
-	* @author Sastha
-	* Created At 2020/09/15
-	**/
-	public static function fnGetAssetsTypes(){
-		$query = DB::TABLE('ams_master_assetstypes')
-					->SELECT('*')
-					->WHERE('delFlg',0)
-					->get();
-		return $query;
-	}
 
 	/**
 	* To Get House Address
@@ -217,7 +177,7 @@ class Common extends Model {
 	* Created At 2020/08/27
 	**/
 	public static function fnGetBuildingAdd($buildingId){
-		$query = DB::TABLE('ams_master_buildingname')
+		$query = DB::TABLE('hms_master_buildingname')
 					->SELECT('*')
 					->WHERE('id', '=', $buildingId)
 					->WHERE('delFlg',0)

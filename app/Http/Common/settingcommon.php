@@ -3,7 +3,7 @@ namespace App\Http\Common;
 
 class settingcommon {
 	public static function getDbFieldsforProcess() {
-		return array('ams_master_buildingname' => array('labels' =>
+		return array('hms_master_buildingname' => array('labels' =>
 									array('heading' => trans('messages.lbl_building_name'),
 									 	'field1lbl' => trans('messages.lbl_building_name'),
 									 	'field2lbl' => trans('messages.lbl_house_buildon'),
@@ -39,7 +39,7 @@ class settingcommon {
 										'usenotusefields' => array('delFlg'),
 										'commitfields' => array('orderId')),
 
-					'ams_master_houseimg_main' => array('labels' =>
+					'hms_master_houseimg_main' => array('labels' =>
 									array('heading' => trans('messages.lbl_houseimgmain'),
 									 	'field1lbl' => trans('messages.lbl_houseimgmain')),
 										'selectfields' => array('id',
@@ -65,7 +65,7 @@ class settingcommon {
 										'usenotusefields' => array('delFlg'),
 										'commitfields' => array('orderId')),
 
-					'ams_master_houseimg_sub' => array('labels' =>
+					'hms_master_houseimg_sub' => array('labels' =>
 										array('heading' => trans('messages.lbl_houseimgsub'),
 											'field1lbl' => trans('messages.lbl_houseimgmain'),
 											'field2lbl' => trans('messages.lbl_houseimgsub')),
@@ -97,7 +97,7 @@ class settingcommon {
 											'commitfields' => array('orderId'),
 											'selectboxfields' => array('id','imageName')),
 					
-					'ams_family_master' => array('labels'=>
+					'hms_family_master' => array('labels'=>
 										array('heading' => trans('messages.lbl_familymember'),
 											'field1lbl' => trans('messages.lbl_familymember'),
 											'field2lbl' => trans('messages.lbl_family_nickname')),

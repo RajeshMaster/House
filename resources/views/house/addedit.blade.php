@@ -119,7 +119,7 @@
 								'name' => 'belongsTo',
 								'data-label' => trans('messages.lbl_belongsTo') )) }}
 				@php
-					$tbl_name = 'ams_family_master';
+					$tbl_name = 'hms_family_master';
 				@endphp
 				<span class="fa fa-plus inb button button-green selectdes"  style="cursor: pointer;"
 					onclick="settingpopupsinglefield('twotextpopup','{{ $tbl_name }}','');">
@@ -192,7 +192,7 @@
 								'onchange' => 'javascript:setHouseName(this.value);getHouAddBuildOn();',
 								'data-label' => trans('messages.lbl_building_name'))) }}
 				@php
-					$tbl_name = 'ams_master_buildingname';
+					$tbl_name = 'hms_master_buildingname';
 				@endphp
 				<span class="fa fa-plus inb button button-green selectdes"  style="cursor: pointer;"
 					onclick="settingpopupsinglefield('threetextpopup','{{ $tbl_name }}','');">

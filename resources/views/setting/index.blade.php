@@ -48,7 +48,7 @@
 						<div class="pull-left mt10 mb10 box100per">
 							<span  class="col-xs-10 ml30 lbldessetcat settingsubdesignfamily">
 								@php
-									$tbl_name = 'ams_family_master';
+									$tbl_name = 'hms_family_master';
 								@endphp
 								<a name="family" style="color:#33AFFF !important;" id="family" href="javascript:settingpopupsinglefield('twotextpopup','{{ $tbl_name }}','');">{{ trans('messages.lbl_familymember') }}</a>
 							</span>
@@ -78,21 +78,21 @@
 						<div class="pull-left mt10 mb10 box100per">
 							<span  class="col-xs-10 ml30 mt5 lbldesset settingsubdesignright">
 								@php
-									$tbl_name = 'ams_master_buildingname';
+									$tbl_name = 'hms_master_buildingname';
 								@endphp
 							 	<a name="houseName" style="color: #33AFFF !important;" 
 						 		id="houseName" href="javascript:settingpopupsinglefield('threetextpopup','{{ $tbl_name }}','');">{{ trans('messages.lbl_building_name') }}</a>
 							</span>
 							<span  class="col-xs-10 mt5 ml30 lbldesset settingsubdesignright">
 								@php
-									$tbl_name = 'ams_master_houseimg_main';
+									$tbl_name = 'hms_master_houseimg_main';
 								@endphp
 								<a name="houseImg" id="houseImg" style="color:#33AFFF !important;" href="javascript:settingpopupsinglefield('singletextpopup','{{ $tbl_name }}','');">{{ trans('messages.lbl_houseimgmain') }}</a>
 							</span>
 							<span  class="col-xs-10 mt5 ml30 lbldesset settingsubdesignright">
 								@php
-									$tbl_name = 'ams_master_houseimg_sub';
-									$tbl_select = 'ams_master_houseimg_main';
+									$tbl_name = 'hms_master_houseimg_sub';
+									$tbl_select = 'hms_master_houseimg_main';
 								@endphp
 								<a name="houseImg" id="houseImg" style="color:#33AFFF !important;" href="javascript:settingpopupsinglefield('selecttextpopup','{{ $tbl_name }}','{{ $tbl_select }}');">{{ trans('messages.lbl_houseimgsub') }}</a>
 							</span>
