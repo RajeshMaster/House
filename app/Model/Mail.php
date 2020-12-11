@@ -116,23 +116,26 @@ class Mail extends Model {
 	*
 	* To Insert Mail content
 	* @author Sastha
-	* Created At 25/08/2020
+	* Created At 11/12/2020
 	* 
 	*/
-	public static function insMailcontent($request,$newmailId){
+	public static function insMailconData($request,$mailvalue){
 		$sql = 	DB::table('hms_mailcontent')
-					->insert([ 'mailId' => $newmailId,
-						'mailName' 		=> $request->mailname,
-						'mailType'		=> 	1,		
-						'subject'		=> 	$request->mailSubject,							
-						'header' 		=>  $request->mailheader,
-						'content' 		=> 	$request->mailContent,
-						'defaultMail' 	=>  0,
-						'createdBy'		=> 	Auth::user()->loginId,
-						'createdDate'	=> date('Y-m-d H:m:s'),
-						'updatedBy' 	=> 	Auth::user()->loginId,
-						'updatedDate' 	=> date('Y-m-d H:m:s'),
-						'delFlg' 		=>  0]);
+					->updateOrInsert([
+							'mailId' => $mailvalue->mailId
+						],
+						[ 
+							'mailId' => $mailvalue->mailId,
+							'mailName' => $mailvalue->mailName,
+							'mailType' => 	1,		
+							'subject' => 	$mailvalue->subject,	
+							'header' =>  $mailvalue->header,
+							'content' => 	$mailvalue->content,
+							'defaultMail' =>  0,
+							'createdBy'	=> 	Auth::user()->userName,
+							'updatedBy' => 	Auth::user()->userName,
+							'delFlg' =>  0
+						]);
 		return $sql;
 	}
 

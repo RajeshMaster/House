@@ -83,10 +83,10 @@
 	</fieldset>
 	<div class="col-xs-12 pm0 pull-left mt5 mt13">
 		<div class="pull-left">
-			<button type="button" onclick="fnContentRegister(1);" 
-					class="button button-green pull-right">
+			<a href="{{ url('Mail/mailregister?time='.date('Ymdhis')) }}" 
+					class="button button-green pull-right textDecNone">
 				<span class="fa fa-plus"></span> {{ trans('messages.lbl_mail')}}
-			</button>
+			</a>
 		</div>
 			
 		</div>

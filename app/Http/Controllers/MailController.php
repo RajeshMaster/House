@@ -136,76 +136,22 @@ class MailController extends Controller {
 	* To view Mail content register
 	* @author Sastha
 	* @return object to particular view page
-	* Created At 26/08/2020
+	* Created At 11/12/2020
 	*/
-	public function mailContentreg(Request $request) {
-		$mailid = $request->mailid;
-		$mailDetails = "";
-		if (!isset($request->mailid)) {
-			return Redirect::to('Mail/mailcontentview?mainmenu=menu_mail&time='.date('YmdHis'));
-		}
-		if(!empty($mailid)){ 
-			$mailDetails = Mail::getMailcontentindb($request,$mailid);
-		}
-		return view('mail.contentaddedit',compact('request',
-												'mailDetails'));
-	}
+	public function mailregister(Request $request) {
+		$mailconarray = json_decode(file_get_contents(base_path() . '/public/json/mailcontentdata.json'));
 
-	/**
-	*
-	* To validate Mail content register 
-	* @author Sastha
-	* @return object to particular view page
-	* Created At 26/08/2020
-	*/
-	public function mailregvalidation(Request $request) {
-		$commonrules=array();
-		$commonrules = array(
-			'mailname' => 'required',
-			'mailSubject'=>'required',
-			'mailheader'=>'required',
-			'mailContent'=>'required',
-			// 'mailsignature'=>'required',
-		);
-		$rules = $commonrules;
-        $validator = Validator::make($request->all(), $rules);
-        if ($validator->fails()) {
-            return response()->json($validator->messages(), 200);exit;
-        } else {
-            $success = true;
-            echo json_encode($success);
-        }
-	}
-
-	/**
-	*
-	* To register Mail content 
-	* @author Sastha
-	* @return object to particular view page
-	* Created At 25/08/2020
-	*/
-	public function mailcontentregprocess(Request $request) {
-		$mailid = $request->mailid;
-		$newmailId = "MAIL0001";
-		$generateUserId = Mail::getcount();
-		if (!empty($generateUserId)) {
-  			$newmailId = $generateUserId[0]->newmailId;
-  		}
-  		if(!empty($mailid)){
-  			$mailContentedit = Mail::updMailcontent($request,$mailid);
-  			if ($mailContentedit) {
-				Session::flash('message', 'Updated Sucessfully!'); 
-				Session::flash('type', 'alert-success'); 
-			}
-  			Session::flash('mailid', $request->mailid);
-  		}else{ 
-			$mailContentreg = Mail::insMailcontent($request,$newmailId);
-			if ($mailContentreg) {
-				Session::flash('message', 'Registered Successfully!'); 
-				Session::flash('type', 'alert-success'); 
-			}
-			Session::flash('mailid', $newmailId);
+		foreach ($mailconarray as $mailconkey => $mailvalue) {
+			$insMailconData = Mail::insMailconData($request,$mailvalue); 
 		}
+		if($insMailconData) {
+			Session::flash('success', 'Mailcontent Registered Successfully!');
+			Session::flash('type', 'alert-success'); 
+		} else {
+			Session::flash('danger', 'Mailcontent Registered Unsuccessfully!');
+			Session::flash('type', 'alert-danger'); 
+		}
+		Session::flash('mailid', $mailvalue->mailId);
 		return Redirect::to('Mail/mailcontentview?mainmenu=menu_mail&time='.date('YmdHis'));
 	}
 

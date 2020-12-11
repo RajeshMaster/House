@@ -89,9 +89,7 @@ Route::group(['prefix'=>'Mail', 'middleware' => 'auth'], function() {
 	Route::any('mailview', 'MailController@mailview');
 	Route::any('mailcontent', 'MailController@mailcontent');
 	Route::any('mailcontentflg', 'MailController@mailcontentflg');
-	Route::any('mailContentreg', 'MailController@mailContentreg');
-	Route::any('mailregvalidation', 'MailController@mailregvalidation');
-	Route::any('mailcontentregprocess', 'MailController@mailcontentregprocess');
+	Route::get('mailregister', 'MailController@mailregister');
 	Route::any('mailcontentview', 'MailController@mailcontentview');
 });
 

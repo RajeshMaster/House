@@ -1,0 +1,10 @@
+[
+	{
+		"mailId": "MAIL0001",
+		"mailName": "User Register",
+		"subject": "Registration Successfully",
+		"header": "Dear",
+		"content": "Welcome to Microbit Pvt Ltd..! \n \n Your User Details has been Successfully Registered. \n Now you can Login by using the details given below. \n LoginId : LLLLL \n Password : PPPPP \n Mobile : MMMMM"
+
+	}
+]
