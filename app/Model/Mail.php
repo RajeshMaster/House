@@ -19,9 +19,9 @@ class Mail extends Model {
 		$sql = DB::TABLE('hms_mailstatus')
 						->SELECT('hms_mailstatus.id', 'hms_mailstatus.userId',
 								'hms_mailstatus.toMail', 'hms_mailstatus.subject',
-								'hms_mailstatus.createdDateTime','ams_users.lastName',
+								'hms_mailstatus.createdDateTime','hms_users.lastName',
 								'hms_mailstatus.createdBy')
-						->LEFTJOIN('ams_users','hms_mailstatus.userId','=','ams_users.userId')
+						->LEFTJOIN('hms_users','hms_mailstatus.userId','=','hms_users.userId')
 						->WHERE('hms_mailstatus.delFlg',0)
 						->orderBy('hms_mailstatus.createdDateTime','DESC')
 						->paginate($request->plimit);
@@ -39,8 +39,8 @@ class Mail extends Model {
 		$sql = DB::TABLE('hms_mailstatus AS mailstatus')
 						->SELECT('mailstatus.userId','mailstatus.toMail',
 								'mailstatus.subject','mailstatus.createdDateTime',
-								'mailstatus.content','ams_users.lastName')
-						->LEFTJOIN('ams_users','mailstatus.userId','=','ams_users.userId')
+								'mailstatus.content','hms_users.lastName')
+						->LEFTJOIN('hms_users','mailstatus.userId','=','hms_users.userId')
 						->WHERE('mailstatus.delFlg',0)
 						->WHERE('mailstatus.id',$request->mailid)
 						->orderBy('mailstatus.createdDateTime','DESC')
