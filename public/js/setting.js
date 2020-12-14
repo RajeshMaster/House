@@ -263,18 +263,11 @@ function fnrdochecktwofield(textbox1,textbox2,editid,scroolid,totalcount,val) {
 	if (rowCount == 1) {
 		document.getElementById("edit").disabled = false;
 		$("#edit").css("background-color","#f2aa10");
-		document.getElementById("dwnArrow").disabled = true;
-		$("#dwnArrow").css("color","#bbb5b5");
-		document.getElementById("upArrow").disabled = true;
-		$("#upArrow").css("color","#bbb5b5");
 	} else {
 		// EDIT BUTTON ENABLE
 		document.getElementById("edit").disabled = false;
-		document.getElementById("dwnArrow").disabled = false;
-		$("#dwnArrow").css("color","#5cb85c");
 		$("#rdoedit"+editid).attr("checked", true);
 		$("#edit").css("background-color","#f2aa10");
-		updownArrowEnableDisable(val, totalcount);
 	}
 }
 
@@ -400,7 +393,7 @@ function resetErrors() {
 function fnaddeditselecttextfield(tablename,flag) {
 	var mainmenu = $('#mainmenu').val();
 	resetErrors();
-	$tbl_select = $('#table_sel').val();
+	$tbl_select = $('#tableselect').val();
 	$.each($('form input, form select'), function(i, v) {
 			data[v.name] = v.value;
 	});
