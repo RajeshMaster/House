@@ -460,7 +460,6 @@ function fnaddeditselecttextfield(tablename,flag) {
 										url: 'SelecttextFieldaddedit',
 										data: {"textbox1": textbox1,"selectbox1": selectbox1,"tablename": tablename,"id": editid,"flag": flag},
 										success: function(data) {
-											// settingpopupsinglefield('selecttextpopup',tablename,$tbl_select);
 											if (data != "") {
 												$('#selectbox1').val('');
 												$('#textbox1').val('');
@@ -594,6 +593,7 @@ function fneditcheckthreefield() {
 	$('#textbox1').focus();
 	return false;
 }
+
 function fnrdocheckthreefield(textbox1,textbox2,textbox3,editid,orderId,totalcount,val) {
 	$('#hid_txtval').val(textbox1);
 	$('#hid_txt2val').val(textbox2);
@@ -614,6 +614,7 @@ function fnrdocheckthreefield(textbox1,textbox2,textbox3,editid,orderId,totalcou
 		$("#edit").css("background-color","#f2aa10");
 	}
 }
+
 // Three field popup Addedit process
 function fnaddeditthreefield(location,mainmenu,tablename,flag) {
 	var mainmenu = $('#mainmenu').val();
@@ -674,73 +675,73 @@ function fnaddeditthreefield(location,mainmenu,tablename,flag) {
 					"flag": flag
 				},
 			success: function(data) {
-							$("#existsChk_textbox1").css("display", "block");
-							if (data == 0) {
-								$("#existsChk_textbox1").css("display", "none");
-								if ($('#process').val() == 1) {
-									var err_cnfirm = msg_add;
-								} else {
-									var err_cnfirm = msg_update;
-								}
-								swal({
-									title: err_cnfirm,
-									type: "warning",
-									showCancelButton: true,
-									confirmButtonClass: "btn-danger",
-									closeOnConfirm: true,
-									closeOnCancel: true
-								},
-								function(isConfirm) {
-								if(isConfirm) {
-									var url = 'ThreeFieldaddedit';
-									$.ajax({
-										async: true,
-										type: 'GET',
-										url: url,
-										data: {"textbox1": textbox1,
-												"textbox2": textbox2,
-												"textbox3": textbox3,
-												"tablename": tablename,
-												"id": editid,
-												"flag": flag
-											},
-										success: function(data) {
-											if (data != "") {
-												// $('#swaptable1 tr:last').remove();
-												$('#textbox1').val('');
-												$('#textbox2').val('');
-												$('#textbox3').val('');
-												if(opr==1) {
-													$("#popupsessionreg").css("display", "block");
-													$("#popupsessionupd").css("display", "none");
-													$("#swaptable1 tr:last").css('cursor', 'hand');
-												} else {
-													$("#dataname1"+editid).text(textbox1);
-													$("#dataname2"+editid).text(textbox2);
-													$("#dataname3"+editid).text(textbox3);
-													$("#add_var").show();
-													$("#update_var").hide();
-													$('#process').val(1);
-													$("#popupsessionupd").css("display", "block");
-													$("#popupsessionreg").css("display", "none");
-												}
-												var rowCount = $('#swaptable1 tr').length;
-												if ($('#swaptable1 tr').hasClass('nodata')) {
-													$('#swaptable1 tr:first').remove();
-												}
-												settingpopupsinglefield('threetextpopup',tablename,'');
-											}
-										},
-										error: function(data) {
+				$("#existsChk_textbox1").css("display", "block");
+				if (data == 0) {
+					$("#existsChk_textbox1").css("display", "none");
+					if ($('#process').val() == 1) {
+						var err_cnfirm = msg_add;
+					} else {
+						var err_cnfirm = msg_update;
+					}
+					swal({
+						title: err_cnfirm,
+						type: "warning",
+						showCancelButton: true,
+						confirmButtonClass: "btn-danger",
+						closeOnConfirm: true,
+						closeOnCancel: true
+					},
+					function(isConfirm) {
+						if(isConfirm) {
+							var url = 'ThreeFieldaddedit';
+							$.ajax({
+								async: true,
+								type: 'GET',
+								url: url,
+								data: {"textbox1": textbox1,
+										"textbox2": textbox2,
+										"textbox3": textbox3,
+										"tablename": tablename,
+										"id": editid,
+										"flag": flag
+									},
+								success: function(data) {
+									if (data != "") {
+										// $('#swaptable1 tr:last').remove();
+										$('#textbox1').val('');
+										$('#textbox2').val('');
+										$('#textbox3').val('');
+										if(opr==1) {
+											$("#popupsessionreg").css("display", "block");
+											$("#popupsessionupd").css("display", "none");
+											$("#swaptable1 tr:last").css('cursor', 'hand');
+										} else {
+											$("#dataname1"+editid).text(textbox1);
+											$("#dataname2"+editid).text(textbox2);
+											$("#dataname3"+editid).text(textbox3);
+											$("#add_var").show();
+											$("#update_var").hide();
+											$('#process').val(1);
+											$("#popupsessionupd").css("display", "block");
+											$("#popupsessionreg").css("display", "none");
 										}
-									});
+										var rowCount = $('#swaptable1 tr').length;
+										if ($('#swaptable1 tr').hasClass('nodata')) {
+											$('#swaptable1 tr:first').remove();
+										}
+										settingpopupsinglefield('threetextpopup',tablename,'');
+									}
+								},
+								error: function(data) {
 								}
 							});
-							} else {
-								$("#textbox2").focus();
-								$("#popupsessionreg").css("display", "none");
-								$("#popupsessionupd").css("display", "none");
-							}
+						}
+					});
+				} else {
+					$("#textbox2").focus();
+					$("#popupsessionreg").css("display", "none");
+					$("#popupsessionupd").css("display", "none");
+				}
 			},
 			error: function(data) {
 			}

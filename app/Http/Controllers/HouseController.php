@@ -55,7 +55,7 @@ class HouseController extends Controller
 		$totArrVal = array();
 		$date = date("Y-m-d");
 		$yrMnth = date("Y-m");
-		$path = "../AssetsUpload/uploads/";
+		$path = "../HouseUpload/uploads/";
 		
 		foreach ($houseDetails as $key => $value) {
 			$getCntHouseImg = House::getCntHouseImg($request,$value->houseId);
@@ -107,7 +107,7 @@ class HouseController extends Controller
 		}
 		
 		$details = House::fnGetHouseDetails($request,1);
-		$path = "../AssetsUpload/uploads/";
+		$path = "../HouseUpload/uploads/";
 		if (empty($details)) {
 			return Redirect::to('House/index?mainmenu=menu_house&time='.date('YmdHis'));
 		} else {
@@ -221,7 +221,7 @@ class HouseController extends Controller
 			$ifile = $_FILES["imgfile"]["name"];
 			$fileType = explode(".",$ifile);
 			// $path = base_path() . "/public/uploads/".$request->userId."/House/".$request->houseId."/".$mainName."/".$subName;
-			$path = "../AssetsUpload/uploads/".$request->userId."/House/".$request->houseId."/".$mainName."/".$subName;
+			$path = "../HouseUpload/uploads/".$request->userId."/House/".$request->houseId."/".$mainName."/".$subName;
 			if(!is_dir($path)) {
 				mkdir($path, 0777,true);
 			}
@@ -237,7 +237,7 @@ class HouseController extends Controller
 		}
 		$uploadImg = House::insertHouseImages($request,$fileName);
 		if($uploadImg) {
-			Session::flash('message', 'Uploaded Sucessfully!'); 
+			Session::flash('success', 'Uploaded Sucessfully!'); 
 			Session::flash('type', 'alert-success'); 
 		} else {
 			Session::flash('danger', 'Uploaded Unsucessfully!'); 
@@ -297,7 +297,7 @@ class HouseController extends Controller
 		$housePrevId = House::getHouseMinId($request);
 		$houseNextId = House::getHouseMaxId($request);
 		$houseImgdetails = House::fnGetHouseImgDtls($request);
-		$path = "../AssetsUpload/uploads/";
+		$path = "../HouseUpload/uploads/";
 		if ($request->fileImage == "index") {
 			if(isset($houseImgdetails[0])) {
 				$request->fileImage = $houseImgdetails[0]->mainCategory.$houseImgdetails[0]->subCategory.$houseImgdetails[0]->id;
@@ -355,7 +355,7 @@ class HouseController extends Controller
 		// to addEdit address master table
 		$updateMemo = House::updateMemo($request);
 		if($updateMemo) {
-			Session::flash('message', 'Memo Updated Sucessfully!'); 
+			Session::flash('success', 'Memo Updated Sucessfully!'); 
 			Session::flash('type', 'alert-success'); 
 		} else {
 			Session::flash('danger', 'Memo Updated Unsucessfully!'); 

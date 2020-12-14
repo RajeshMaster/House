@@ -147,7 +147,7 @@ class House extends Model {
 	**/
 	public static function getlatestHouseImagesDtls() {
 		$db = DB::connection('mysql');
-		$latDetails = $db->table('ams_house_images')->max('id');
+		$latDetails = $db->table('hms_house_images')->max('id');
 		return $latDetails;
 	}
 
@@ -189,7 +189,7 @@ class House extends Model {
 	**/
 	public static function insertHouseImages($request,$fileName){
 		$db = DB::connection('mysql');
-		$insert = $db->table('ams_house_images')
+		$insert = $db->table('hms_house_images')
 					->insert(['userId' => $request->userId,
 								'houseId' => $request->houseId,
 								'mainCategory' => $request->mainImageId,
@@ -208,7 +208,7 @@ class House extends Model {
 	**/
 	public static function fnGetHouseImgDtls($request) {
 		$db = DB::connection('mysql');
-		$result = $db->TABLE('ams_house_images as images')
+		$result = $db->TABLE('hms_house_images as images')
 					->SELECT('images.*','mainImg.imageName as MainImgName','subImg.imageName as SubImgName')
 					->WHERE('images.userId', '=' , $request->userId)
 					->WHERE('images.houseId', '=', $request->houseId)
@@ -228,7 +228,7 @@ class House extends Model {
 	**/
 	public static function getMainSubImageName($request) {
 		$db = DB::connection('mysql');
-		$result = $db->TABLE('ams_house_images')
+		$result = $db->TABLE('hms_house_images')
 					->select('*')
 					->WHERE('userId', '=' , $request->userId)
 					->WHERE('houseId', '=', $request->houseId)
@@ -249,7 +249,7 @@ class House extends Model {
 	**/
 	public static function fnGetMainImgCount($request,$mainId) {
 		$db = DB::connection('mysql');
-		$result = $db->TABLE('ams_house_images')
+		$result = $db->TABLE('hms_house_images')
 					->select('*')
 					->WHERE('userId', '=' , $request->userId)
 					->WHERE('houseId', '=', $request->houseId)
@@ -269,7 +269,7 @@ class House extends Model {
 	**/
 	public static function fnGetSubImgCount($request,$mainId,$subId) {
 		$db = DB::connection('mysql');
-		$result = $db->TABLE('ams_house_images')
+		$result = $db->TABLE('hms_house_images')
 					->select('*')
 					->WHERE('userId', '=' , $request->userId)
 					->WHERE('houseId', '=', $request->houseId)
@@ -295,7 +295,7 @@ class House extends Model {
 		} else {
 			$request->imageId = $request->imageId + 1;
 		}
-		$result = $db->TABLE('ams_house_images')
+		$result = $db->TABLE('hms_house_images')
 					->select('*')
 					->WHERE('userId', '=' , $request->userId)
 					->WHERE('houseId', '=', $request->houseId)
@@ -313,7 +313,7 @@ class House extends Model {
 	**/
 	public static function getHouseMinId($request) {
 		$db = DB::connection('mysql');
-		$latDetails = $db->table('ams_house_images')
+		$latDetails = $db->table('hms_house_images')
 						->WHERE('userId', '=' , $request->userId)
 						->WHERE('houseId', '=', $request->houseId)
 						->min('id');
@@ -328,7 +328,7 @@ class House extends Model {
 	**/
 	public static function getHouseMaxId($request) {
 		$db = DB::connection('mysql');
-		$latDetails = $db->table('ams_house_images')
+		$latDetails = $db->table('hms_house_images')
 						->WHERE('userId', '=' , $request->userId)
 						->WHERE('houseId', '=', $request->houseId)
 						->max('id');
@@ -343,7 +343,7 @@ class House extends Model {
 	**/
 	public static function getCntHouseImg($request,$houseId) {
 		$db = DB::connection('mysql');
-		$result = $db->TABLE('ams_house_images as images')
+		$result = $db->TABLE('hms_house_images as images')
 					->SELECT('images.*')
 					->WHERE('images.userId', '=' , $request->userId)
 					->WHERE('images.houseId', '=', $houseId)
