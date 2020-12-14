@@ -70,7 +70,7 @@
 		@endif
 
 		<div class="col-xs-12 pm0 pull-left mt10 mb10" style="padding: 0px !important;">
-			<a href="javascript:houseRegister('{{ $request->userId }}');" 
+			<a href="{{ url('House/houseRegister?time='.date('Ymdhis')) }}" 
 				class="button button-green textDecNone">
 				<span class="fa fa-plus"></span> {{ trans('messages.lbl_register') }}
 			</a>

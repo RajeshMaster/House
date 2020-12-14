@@ -132,8 +132,8 @@ class Mail extends Model {
 							'header' =>  $mailvalue->header,
 							'content' => 	$mailvalue->content,
 							'defaultMail' =>  0,
-							'createdBy'	=> 	Auth::user()->userName,
-							'updatedBy' => 	Auth::user()->userName,
+							'createdBy'	=> 	Session::get('FirstName'),
+							'updatedBy' => 	Session::get('FirstName'),
 							'delFlg' =>  0
 						]);
 		return $sql;
@@ -160,24 +160,6 @@ class Mail extends Model {
 						->WHERE('hms_mailcontent.delFlg',0)
 						->GET();
 		return $mailDetails[0];
-	}
-
-	/**
-	*
-	* To Update the mailcontent information
-	* @author Sastha
-	* Created At 25/08/2020
-	* 
-	*/
-	public static function updMailcontent($request,$mailid) {
-		$mailupdate = DB::TABLE('hms_mailcontent')
-							->WHERE('mailId',$request->mailid)
-							->update(['mailName' => $request->mailname,
-								'subject' => $request->mailSubject,
-								'header' => $request->mailheader,
-								'content' => $request->mailContent,
-								'updatedDate' => date('Y-m-d H:i:s')]);
-						  return $mailupdate;
 	}
 
 	/**

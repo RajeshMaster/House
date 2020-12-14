@@ -19,10 +19,9 @@ class House extends Model {
 	public static function fnGetHouseDetails($request,$flg){
 
 		$db = DB::connection('mysql');
-		$query = $db->table('ams_house_details as house')
-					->select('house.*','familyMst.id as familyId','familyMst.familyName','bankMst.nickName')
+		$query = $db->table('hms_house_details as house')
+					->select('house.*','familyMst.id as familyId','familyMst.familyName')
 					->LEFTJOIN('hms_family_master AS familyMst','house.belongsTo','=','familyMst.id')
-					->LEFTJOIN('ams_bankname_master AS bankMst','house.bankId','=','bankMst.id')
 					->where('house.userId', '=', $request->userId)
 					->where('house.soldFlg', '=', 0)
 					->where('house.delFlg', '=', 0);
@@ -37,22 +36,6 @@ class House extends Model {
 								->get();
 			}
 		
-		return $query;
-	}
-
-	/**  
-	*  New House Id
-	*  @author Madasamy 
-	*  @param 
-	*  Created At 2020/08/27
-	**/
-	public static function getcount() {
-		$query = DB::table('ams_house_details')
-				->select('houseId',DB::RAW("IF(houseId=(SELECT houseId FROM ams_house_details
-						ORDER BY id DESC LIMIT 1), CONCAT('HOUSE', LPAD(SUBSTRING(houseId, 6)+1, 3, 0)),houseId) AS houseId"))
-				->orderby('houseId','DESC')
-				->limit(1)
-				->get();
 		return $query;
 	}
 
@@ -73,112 +56,39 @@ class House extends Model {
 
 	/**  
 	*  House Insert
-	*  @author Madasamy 
-	*  @param $request,$filename,$houseCode
-	*  Created At 2020/08/19
+	*  @author Sastha 
+	*  @param $request,$housevalue
+	*  Created At 2020/12/14
 	**/
-	public static function insertHouseDetails($request,$filename,$houseCode){
-
-		$db = DB::connection('mysql');
-		$insert = $db->table('ams_house_details')
-					->insert(['userId' => $request->userId,
-								'houseId' => $houseCode,
-								'belongsTo' => $request->belongsTo,
-								'purchaseDate' => $request->purchaseDate,
-								'purchaseAmount' => str_replace(",", "", $request->purchaseAmount),
-								'pincode' => $request->pincode,
-								'buildingName' => $request->buildingName,
-								'houseName' => $request->houseName,
-								'houseNo' => $request->houseNo,
-								'address' => $request->address,
-								'image1' => $filename,
-								'houseType' => $request->houseType,
-								'houseSize' => $request->houseSize,
-								'balaconySize' => $request->balaconySize,
-								'houseBuildOn' => $request->houseBuildOn,
-								'maintFees' => str_replace(",", "", $request->maintFees),
-								'tax' => str_replace(",", "", $request->tax),
-								'currentValue' => str_replace(",", "", $request->currentValue),
-								'createdBy' => Session::get("FirstName"),
-								'createdDateTime' => date('Y-m-d H:i:s')
-							]);
-		return $insert;
+	public static function insHouseData($request,$housevalue){
+		$sql = 	DB::table('hms_house_details')
+					->updateOrInsert([
+							'houseId' => $housevalue->houseId
+						],
+						[ 
+							'userId' => Auth::user()->userId,
+							'houseId' => $housevalue->houseId,
+							'belongsTo' => $housevalue->belongsTo,
+							'purchaseDate' => $housevalue->purchaseDate,
+							'purchaseAmount' => str_replace(",", "", $housevalue->purchaseAmount),
+							'pincode' => $housevalue->pincode,
+							'buildingName' => $housevalue->buildingName,
+							'houseName' => $housevalue->houseName,
+							'houseNo' => $housevalue->houseNo,
+							'address' => $housevalue->address,
+							'houseType' => $housevalue->houseType,
+							'houseSize' => $housevalue->houseSize,
+							'balaconySize' => $housevalue->balaconySize,
+							'houseBuildOn' => $housevalue->houseBuildOn,
+							'maintFees' => str_replace(",", "", $housevalue->maintFees),
+							'tax' => str_replace(",", "", $housevalue->tax),
+							'currentValue' => str_replace(",", "", $housevalue->currentValue),
+							'createdBy'	=> 	Session::get('FirstName'),
+							'updatedBy' => 	Session::get('FirstName')
+						]);
+		return $sql;
 	}
-
-	/**  
-	*  House Update
-	*  @author Madasamy 
-	*  @param $request,$filename,$houseCode
-	*  Created At 2020/08/19
-	**/
-	public static function updateHouseDetails($request,$filename,$houseCode) {
-		$db = DB::connection('mysql');
-		$update = $db->table('ams_house_details')
-					->where('houseId', $request->houseId)
-					->update(['userId' => $request->userId,
-								'houseId' => $houseCode,
-								'belongsTo' => $request->belongsTo,
-								'purchaseDate' => $request->purchaseDate,
-								'purchaseAmount' => str_replace(",", "", $request->purchaseAmount),
-								'pincode' => $request->pincode,
-								'buildingName' => $request->buildingName,
-								'houseName' => $request->houseName,
-								'houseNo' => $request->houseNo,
-								'address' => $request->address,
-								'image1' => $filename,
-								'houseType' => $request->houseType,
-								'houseSize' => $request->houseSize,
-								'balaconySize' => $request->balaconySize,
-								'houseBuildOn' => $request->houseBuildOn,
-								'maintFees' => str_replace(",", "", $request->maintFees),
-								'tax' => str_replace(",", "", $request->tax),
-								'currentValue' => str_replace(",", "", $request->currentValue),
-								'updatedBy' => Session::get("FirstName"),
-								'updatedDateTime' => date('Y-m-d H:i:s')
-							]);
-		return $update;
-
-	}
-
-	/**  
-	*  Latest House Details
-	*  @author Madasamy 
-	*  @param 
-	*  Created At 2020/08/19
-	**/
-	public static function getlatestHouseDetails() {
-		$db = DB::connection('mysql');
-		$latDetails = $db->table('ams_house_details')->max('id');
-		return $latDetails;
-	}
-
-	/**  
-	*  Update or insert address Details
-	*  @author Madasamy 
-	*  @param $request,$houseCode
-	*  Created At 2020/08/25
-	**/
-	public static function updateOrInsertAddr($request,$houseCode){
-		$db = DB::connection('mysql');
-		$insert=$db->table('ams_address')
-							->updateOrInsert([
-								'houseId' => $houseCode
-							],
-							[
-								'userId' => $request->userId,
-								'pincode' => $request->pincode,
-								'address' => $request->address,
-								'buildingName' => $request->buildingName,
-								'houseName' => $request->houseName,
-								'houseNo' => $request->houseNo,
-								'createdBy' => Session::get("FirstName"),
-								'createdDateTime' => date('Y-m-d H:i:s'),
-								'updatedBy' => Session::get("FirstName"),
-								'updatedDateTime' => date('Y-m-d H:i:s')
-							]);
-		return $insert;
-	}
-
+	
 	/**  
 	*  Get Building Name
 	*  @author Madasamy 
@@ -330,22 +240,6 @@ class House extends Model {
 		return $result;
 	}
 
-	/**  
-	* To Get House Loan details
-	*  @author Madasamy 
-	*  @param $houseId
-	*  Created At 2020/09/10
-	**/
-	public static function fnGetLoanDetails($houseId) {
-		$db = DB::connection('mysql');
-		$result = $db->table('ams_loan_details')
-					->select('*')
-					->where('houseAddress', 'LIKE' , '%'.$houseId.'%')
-					->where('activeFlg','=',0)
-					->ORDERBY('loanId', 'ASC')
-					->get();
-		return $result;
-	}
 
 	/**  
 	* To Get Main Image Count
@@ -467,7 +361,7 @@ class House extends Model {
 	**/
 	public static function updateMemo($request) {
 		$db = DB::connection('mysql');
-		$update = $db->table('ams_house_details')
+		$update = $db->table('hms_house_details')
 					->where('houseId', $request->houseId)
 					->update(['memoContent' => $request->memoContent,
 								'updatedBy' => Session::get("FirstName"),

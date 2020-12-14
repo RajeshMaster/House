@@ -55,8 +55,7 @@ Route::group(['prefix'=>'House', 'middleware' => 'auth'], function() {
 	Route::get('changelanguage','AjaxController@index');
 	Route::any('index', 'HouseController@index');
 	Route::any('view', 'HouseController@view');
-	Route::any('addEdit', 'HouseController@addEdit');
-	Route::any('addeditprocess', 'HouseController@addeditprocess');
+	Route::any('houseRegister', 'HouseController@houseRegister');
 	Route::any('getBuildingName', 'HouseController@getBuildingName');
 	Route::any('uploadImgPopup', 'HouseController@uploadImgPopup');
 	Route::any('subImageId_ajax', 'HouseController@subImageId_ajax');

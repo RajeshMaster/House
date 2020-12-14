@@ -79,31 +79,36 @@ class UserController extends Controller {
 
 			// Mail Process
 			$get_mail_content =  Common::get_mail_content(UserController::MAIL_ID);
-			foreach ($get_mail_content as $key => $value) {
-				$mailcontent['name'] = $jsonvalue->firstName."  ".$jsonvalue->lastName;
-				$mailcontent['userid'] = $jsonvalue->userId;
-				$mailcontent['password'] = $jsonvalue->password;
-				$mailcontent['subject'] = $value->subject;
-				$mailcontent['header'] = $value->header;
-				$value->content = str_replace("LLLLL",$jsonvalue->userId,$value->content);
-				$value->content = str_replace("PPPPP",$jsonvalue->password,$value->content);
-				$value->content = str_replace("MMMMM",$jsonvalue->mobileNo,$value->content);
-				$mailcontent['content'] = $value->content;
-				$mailcontent['contactno'] = $jsonvalue->mobileNo;
+			if (count($get_mail_content) != 0) {
+				foreach ($get_mail_content as $key => $value) {
+					$mailcontent['name'] = $jsonvalue->firstName."  ".$jsonvalue->lastName;
+					$mailcontent['userid'] = $jsonvalue->userId;
+					$mailcontent['password'] = $jsonvalue->password;
+					$mailcontent['subject'] = $value->subject;
+					$mailcontent['header'] = $value->header;
+					$value->content = str_replace("LLLLL",$jsonvalue->userId,$value->content);
+					$value->content = str_replace("PPPPP",$jsonvalue->password,$value->content);
+					$value->content = str_replace("MMMMM",$jsonvalue->mobileNo,$value->content);
+					$mailcontent['content'] = $value->content;
+					$mailcontent['contactno'] = $jsonvalue->mobileNo;
+				}
+				$content = $mailcontent['subject'];
+				$send = Mail::send('commontemplate/mail',compact('mailcontent','visiturl','signature'), 
+					function($message) use ($request,$content,$jsonvalue) {	
+						$message->from('staff@microbit.co.jp','MICROBIT');
+						$message->to($jsonvalue->email,$jsonvalue->firstName)
+								->subject($content);
+				});
+				$candidate_view = View::make('commontemplate/mail',
+									compact('mailcontent',
+											'visiturl',
+											'signature'));
+				$contentsCandidate = $candidate_view->render();
+				$insUserData = User::insUserData($request,$jsonvalue,$mailcontent,$contentsCandidate); 
+			} else {
+				$mailcontent = array();
+				$insUserData = 0;
 			}
-			$content = $mailcontent['subject'];
-			$send = Mail::send('commontemplate/mail',compact('mailcontent','visiturl','signature'), 
-				function($message) use ($request,$content,$jsonvalue) {	
-					$message->from('staff@microbit.co.jp','MICROBIT');
-					$message->to($jsonvalue->email,$jsonvalue->firstName)
-							->subject($content);
-			});
-			$candidate_view = View::make('commontemplate/mail',
-								compact('mailcontent',
-										'visiturl',
-										'signature'));
-			$contentsCandidate = $candidate_view->render();
-			$insUserData = User::insUserData($request,$jsonvalue,$mailcontent,$contentsCandidate); 
 		}
 		
 		if($insUserData) {
