@@ -118,24 +118,10 @@
 						This Value is already exists!
 					</p>
 				</div>
-				<div align="center" class="alertboxalign mr80 messagedisplay" id="popupsessioncommit" style="display: none;">
-					<p class="alert alert-success">
-						Commited Successfully!
-					</p>
-				</div>
 			</div>
 		<div class="pull-right mr30 designchange">
 			<button type="button" name="edit" style="background-color: #bbb5b5;" id="edit" class="pull-left btn edit  mt10 mb10"  disabled="disabled" onclick="return fneditcheckthreefield();">
 				<i class="glyphicon glyphicon-edit"></i> {{ trans('messages.lbl_edit') }} 
-			</button>
-			<div class="mt13 mr5 ml5 pull-left" style="padding: 0px;">
-					<button type="button" id="dwnArrow" class="fa fa-arrow-down" disabled="disabled"  style="" onclick="getdowndata()">
-					</button>
-					<button type="button" id="upArrow" class="fa fa-arrow-up" disabled="disabled"  style="" onclick="getupdata()">
-					</button>
-			</div>
-			<button type="button" style="background-color: #bbb5b5;" class="btn add mt10 mb10" id="commit_button" disabled="disabled" onclick="getcommitCheck('{{ $request->tablename }}','{{ $request->screen_name }}','');">
-				<i class="glyphicon glyphicon-check"></i> {{ trans('messages.lbl_commit') }} 
 			</button>
 		</div>
 		</div>

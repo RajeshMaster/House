@@ -14,7 +14,7 @@
 		"balaconySize": "10",
 		"houseBuildOn": "2019-03-07",
 		"maintFees": "5,000",
-		"currentValue": "4,500,000",
+		"currentValue": "5,500",
 		"tax": "25"
 
 	},
@@ -22,7 +22,7 @@
 		"houseId": "HOUSE002",
 		"belongsTo": "2",
 		"purchaseDate": "2019-01-23",
-		"purchaseAmount": "25,000",
+		"purchaseAmount": "4,600",
 		"pincode": "532-0011",
 		"address": "西中島南方",
 		"buildingName": "2",
@@ -33,14 +33,14 @@
 		"balaconySize": "30",
 		"houseBuildOn": "2017-07-27",
 		"maintFees": "17,000",
-		"currentValue": "6,300,000",
+		"currentValue": "6,300",
 		"tax": "45"
 	},
 	{
 		"houseId": "HOUSE003",
 		"belongsTo": "3",
 		"purchaseDate": "2017-05-13",
-		"purchaseAmount": "1,25,000",
+		"purchaseAmount": "7,500",
 		"pincode": "532-0011",
 		"address": "淀川区西中島, 2-12-8",
 		"buildingName": "3",
@@ -51,14 +51,14 @@
 		"balaconySize": "50",
 		"houseBuildOn": "2016-03-10",
 		"maintFees": "25,000",
-		"currentValue": "8,200,000",
+		"currentValue": "8,200",
 		"tax": "50"
 	},
 	{
 		"houseId": "HOUSE004",
 		"belongsTo": "4",
 		"purchaseDate": "2015-07-05",
-		"purchaseAmount": "85,000",
+		"purchaseAmount": "1,000",
 		"pincode": "532-0011",
 		"address": "大阪市淀川区西中島5-6-3",
 		"buildingName": "4",
@@ -69,7 +69,7 @@
 		"balaconySize": "10",
 		"houseBuildOn": "2014-01-20",
 		"maintFees": "45,000",
-		"currentValue": "1,200,000",
+		"currentValue": "1,200",
 		"tax": "22"
 	}
 ]
