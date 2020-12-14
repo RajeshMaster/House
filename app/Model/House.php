@@ -60,7 +60,7 @@ class House extends Model {
 	*  @param $request,$housevalue
 	*  Created At 2020/12/14
 	**/
-	public static function insHouseData($request,$housevalue){
+	public static function insHouseData($request,$housevalue,$fileName){
 		$sql = 	DB::table('hms_house_details')
 					->updateOrInsert([
 							'houseId' => $housevalue->houseId
@@ -83,6 +83,7 @@ class House extends Model {
 							'maintFees' => str_replace(",", "", $housevalue->maintFees),
 							'tax' => str_replace(",", "", $housevalue->tax),
 							'currentValue' => str_replace(",", "", $housevalue->currentValue),
+							'image1' => $fileName,
 							'createdBy'	=> 	Session::get('FirstName'),
 							'updatedBy' => 	Session::get('FirstName')
 						]);

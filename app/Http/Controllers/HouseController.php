@@ -132,12 +132,19 @@ class HouseController extends Controller
 	*/
 	public function houseRegister(Request $request) {
 		
-		$housedetarray = json_decode(file_get_contents(base_path() . '/public/json/housedata.json'));
-
-		foreach ($housedetarray as $housekey => $housevalue) {
-			$insHouseData = House::insHouseData($request,$housevalue); 
+		$houseDetArray = json_decode(file_get_contents(base_path() . '/public/json/housedata.json'));
+		foreach ($houseDetArray as $housekey => $housevalue) {
+			$ifile = basename($housevalue->image1);
+			$fileType = explode(".",$ifile);
+			$fileName = $housevalue->houseId.".".end($fileType);
+			$path = "../HouseUpload/uploads/".Auth::user()->userId."/House/".$housevalue->houseId;
+			if(!is_dir($path)) {
+				mkdir($path, 0777,true);
+			}
+			$path = $path."/".$fileName;
+			copy($housevalue->image1, $path);
+			$insHouseData = House::insHouseData($request,$housevalue,$fileName); 
 		}
-
 		if($insHouseData) {
 			Session::flash('success', 'House Registered Successfully!');
 			Session::flash('type', 'alert-success'); 
@@ -146,8 +153,8 @@ class HouseController extends Controller
 			Session::flash('type', 'alert-danger'); 
 		}
 
-		Session::put('houseId', $housevalue->houseId); 
-		Session::put('houseUserId', Auth::user()->userId); 
+		Session::flash('houseId', $housevalue->houseId); 
+		Session::flash('houseUserId', Auth::user()->userId); 
 		
 		return Redirect::to('House/view?mainmenu=menu_house&time='.date('YmdHis'));
 	}

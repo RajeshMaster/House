@@ -15,7 +15,8 @@
 		"houseBuildOn": "2019-03-07",
 		"maintFees": "5,000",
 		"currentValue": "5,500",
-		"tax": "25"
+		"tax": "25",
+		"image1": "C:/xampp/htdocs/HouseImages/ideal.jpg"
 
 	},
 	{
@@ -34,7 +35,8 @@
 		"houseBuildOn": "2017-07-27",
 		"maintFees": "17,000",
 		"currentValue": "6,300",
-		"tax": "45"
+		"tax": "45",
+		"image1": "C:/xampp/htdocs/HouseImages/marksheet.jpg"
 	},
 	{
 		"houseId": "HOUSE003",
@@ -52,7 +54,8 @@
 		"houseBuildOn": "2016-03-10",
 		"maintFees": "25,000",
 		"currentValue": "8,200",
-		"tax": "50"
+		"tax": "50",
+		"image1": "C:/xampp/htdocs/HouseImages/skype.jpg"
 	},
 	{
 		"houseId": "HOUSE004",
@@ -70,6 +73,7 @@
 		"houseBuildOn": "2014-01-20",
 		"maintFees": "45,000",
 		"currentValue": "1,200",
-		"tax": "22"
+		"tax": "22",
+		"image1": "C:/xampp/htdocs/HouseImages/flower.jpg"
 	}
 ]
