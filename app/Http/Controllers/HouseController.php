@@ -142,7 +142,7 @@ class HouseController extends Controller
 				mkdir($path, 0777,true);
 			}
 			$path = $path."/".$fileName;
-			copy($housevalue->image1, $path);
+			copy(iconv('UTF-8', 'SJIS', $housevalue->image1), $path);
 			$insHouseData = House::insHouseData($request,$housevalue,$fileName); 
 		}
 		if($insHouseData) {
@@ -213,22 +213,20 @@ class HouseController extends Controller
 	public function uploadImgProcess(Request $request){
 		$mainImgName = House::getMainImgName($request->mainImageId);
 		if (isset($mainImgName[0]->imageName)) {
-			$mainName = mb_convert_encoding($mainImgName[0]->imageName,'SJIS','AUTO');
+			$mainName = $mainImgName[0]->imageName;
 		} else {
 			$mainName =  "";
 		}
 		$subImgName = House::getSubImgName($request->subImageId);
 		if (isset($subImgName[0]->imageName)) {
-			$subName = mb_convert_encoding($subImgName[0]->imageName,'SJIS','AUTO');
+			$subName =  $subImgName[0]->imageName; 
 		} else {
 			$subName =  "";
 		}
 		if ($request->hasFile('imgfile')) {
-			// $filename = $request->image1->getClientOriginalName();
 			$ifile = $_FILES["imgfile"]["name"];
 			$fileType = explode(".",$ifile);
-			// $path = base_path() . "/public/uploads/".$request->userId."/House/".$request->houseId."/".$mainName."/".$subName;
-			$path = "../HouseUpload/uploads/".$request->userId."/House/".$request->houseId."/".$mainName."/".$subName;
+			$path = iconv('UTF-8', 'SJIS',"../HouseUpload/uploads/".$request->userId."/House/".$request->houseId."/".$mainName."/".$subName);
 			if(!is_dir($path)) {
 				mkdir($path, 0777,true);
 			}
