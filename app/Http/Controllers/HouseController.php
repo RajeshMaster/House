@@ -202,19 +202,17 @@ class HouseController extends Controller
 			$houseCode = $details[0]->houseId;
 		}
 		if ($request->hasFile('image1')) {
-			// $filename = $request->image1->getClientOriginalName();
 			$ifile = $_FILES["image1"]["name"];
 			$fileType = explode(".",$ifile);
 			$fileName = $houseCode.".".end($fileType);
-			// $path = base_path() . "/public/uploads/".$request->userId."/House/".$houseCode;
 			$path = "../AssetsUpload/uploads/".$request->userId."/House/".$houseCode;
 			if(!is_dir($path)) {
 				mkdir($path, 0777,true);
 			}
 
 			$path = $path."/";
-			if ($request->file_name_temp != '') {
-				// unlink($path."/".$request->file_name_temp);
+			if ($request->file_name_temp != '' && file_exists($path."/".$request->file_name_temp)) {
+				unlink($path."/".$request->file_name_temp);
 			}
 
 			$request->image1->move($path, $fileName);
@@ -315,15 +313,15 @@ class HouseController extends Controller
 		}
 		$subImgName = House::getSubImgName($request->subImageId);
 		if (isset($subImgName[0]->imageName)) {
+			$subName1 = $subImgName[0]->imageName;
 			$subName = mb_convert_encoding($subImgName[0]->imageName,'SJIS','AUTO');
 		} else {
 			$subName =  "";
+			$subName1 = "";
 		}
 		if ($request->hasFile('imgfile')) {
-			// $filename = $request->image1->getClientOriginalName();
 			$ifile = $_FILES["imgfile"]["name"];
 			$fileType = explode(".",$ifile);
-			// $path = base_path() . "/public/uploads/".$request->userId."/House/".$request->houseId."/".$mainName."/".$subName;
 			$path = "../AssetsUpload/uploads/".$request->userId."/House/".$request->houseId."/".$mainName."/".$subName;
 			if(!is_dir($path)) {
 				mkdir($path, 0777,true);
@@ -331,10 +329,8 @@ class HouseController extends Controller
 			$path = $path."/";
 			$fileCount = House::getlatestHouseImagesDtls();
 			$fileCount = $fileCount + 1;
-			$fileName = $subName."_".$fileCount.".".end($fileType);
+			$fileName = $subName1."_".$fileCount.".".end($fileType);
 			$request->imgfile->move($path,$fileName);
-			// print_r($fileName);exit();
-			// $fileName = $subImgName[0]->imageName."_".$fileCount.".".end($fileType);
 		} else {
 			$fileName = "";
 		}

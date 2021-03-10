@@ -286,8 +286,9 @@ class SettingController extends Controller {
 			$houseArr[$value->familyName][$key] = (array)$value;
 		}
 		$request->userId = $userId;
-
+		$path = "../AssetsUpload/uploads/";
 		return view('setting.soldhousepopup',['houseArr' => $houseArr,
+												'path' => $path,
 												'request' => $request ]);
 	}
 
