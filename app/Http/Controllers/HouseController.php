@@ -55,7 +55,7 @@ class HouseController extends Controller
 		$totArrVal = array();
 		$date = date("Y-m-d");
 		$yrMnth = date("Y-m");
-		$path = "../HouseUpload/uploads/";
+		$path = "../AssetsUpload/uploads/";
 		
 		foreach ($houseDetails as $key => $value) {
 			$getCntHouseImg = House::getCntHouseImg($request,$value->houseId);
@@ -105,9 +105,9 @@ class HouseController extends Controller
 				$subCatdetails[$main->id][$subvalue->id]['subCount'] = count($fileCatDtls);
 			}
 		}
-		
+		// echo "<pre>";print_r($subCatdetails);echo "</pre>";exit();
 		$details = House::fnGetHouseDetails($request,1);
-		$path = "../HouseUpload/uploads/";
+		$path = "../AssetsUpload/uploads/";
 		if (empty($details)) {
 			return Redirect::to('House/index?mainmenu=menu_house&time='.date('YmdHis'));
 		} else {
@@ -123,39 +123,135 @@ class HouseController extends Controller
 
 	}
 
-	/**
-	*
-	* To view House register
-	* @author Sastha
-	* @return object to particular view page
-	* Created At 14/12/2020
-	*/
-	public function houseRegister(Request $request) {
-		
-		$houseDetArray = json_decode(file_get_contents(base_path() . '/public/json/housedata.json'));
-		foreach ($houseDetArray as $housekey => $housevalue) {
-			$ifile = basename($housevalue->image1);
+	/**  
+	*  House addEdit Details
+	*  @author Madasamy 
+	*  @param $request
+	*  Created At 2020/08/19
+	**/
+	public function addEdit(Request $request) {
+
+		if ($request->userId == "") {
+			return Redirect::to('House/index?mainmenu=menu_house&time='.date('YmdHis'));
+		} 
+
+		$userDetails = House::fnGetUserDetails($request->userId);
+		if (empty($userDetails)) {
+			return Redirect::to('House/index?mainmenu=menu_house&time='.date('YmdHis'));
+		}
+
+		$houseAddress =  Common::fnGetBuildingName();
+		$houseAddressarray = array();
+		foreach ($houseAddress as $key => $house) {
+			$houseAddressarray[$house->id] = $house->buildingName;
+		}
+		$familyMembers =  Common::fnGetFamilyMembers();
+		$familyMembersarray = array();
+		foreach ($familyMembers as $key => $family) {
+			$familyMembersarray[$family->id] = $family->familyName;
+		}
+		if ($request->editChk == 1) {
+			$detedit = House::fnGetHouseDetails($request,1);
+			if (!empty($detedit[0])) {
+				$detedit['belongsTo'] = $detedit[0]->belongsTo;
+				$detedit['purchaseDate'] = $detedit[0]->purchaseDate;
+				$detedit['purchaseAmount'] = number_format($detedit[0]->purchaseAmount);
+				$detedit['pincode'] = $detedit[0]->pincode;
+				$detedit['address'] = $detedit[0]->address;
+				$detedit['buildingName'] = $detedit[0]->buildingName;
+				$detedit['houseName'] = $detedit[0]->houseName;
+				$detedit['houseNo'] = $detedit[0]->houseNo;
+				$detedit['image1'] = $detedit[0]->image1;
+				$detedit['houseType'] = $detedit[0]->houseType;
+				$detedit['houseSize'] = $detedit[0]->houseSize;
+				$detedit['balaconySize'] = $detedit[0]->balaconySize;
+				$detedit['houseBuildOn'] = $detedit[0]->houseBuildOn;
+				$detedit['maintFees'] = ($detedit[0]->maintFees) ? number_format($detedit[0]->maintFees) : "";
+				$detedit['tax'] = ($detedit[0]->tax) ? number_format($detedit[0]->tax) : "";
+				$detedit['currentValue'] = ($detedit[0]->currentValue) ? number_format($detedit[0]->currentValue) : "";
+			}
+		}
+
+		return view('house.addedit', ['detedit' => (isset($detedit)) ? $detedit : "",
+										'houseAddressarray' => $houseAddressarray,
+										'familyMembersarray' => $familyMembersarray,
+										'request' => $request]);
+	}
+
+	/**  
+	*  House Insert,Update Details
+	*  @author Madasamy 
+	*  @param $request
+	*  Created At 2020/08/19
+	**/
+	public function addeditprocess(Request $request) {
+
+		if (!isset($request->userId)) {
+			return Redirect::to('House/index?mainmenu=menu_house&time='.date('YmdHis'));
+		}
+
+		$houseCode = "";
+		if (!isset($request->editpage)) {
+			$houseCode = "HOUSE001";
+			$generateHouseId = House::getcount();
+			if (!empty($generateHouseId)) {
+				$houseCode = $generateHouseId[0]->houseId;
+			}
+		} else {
+			$details = House::fnGetHouseDetails($request,1);
+			$houseCode = $details[0]->houseId;
+		}
+		if ($request->hasFile('image1')) {
+			// $filename = $request->image1->getClientOriginalName();
+			$ifile = $_FILES["image1"]["name"];
 			$fileType = explode(".",$ifile);
-			$fileName = $housevalue->houseId.".".end($fileType);
-			$path = "../HouseUpload/uploads/".Auth::user()->userId."/House/".$housevalue->houseId;
+			$fileName = $houseCode.".".end($fileType);
+			// $path = base_path() . "/public/uploads/".$request->userId."/House/".$houseCode;
+			$path = "../AssetsUpload/uploads/".$request->userId."/House/".$houseCode;
 			if(!is_dir($path)) {
 				mkdir($path, 0777,true);
 			}
-			$path = $path."/".$fileName;
-			copy(iconv('UTF-8', 'SJIS', $housevalue->image1), $path);
-			$insHouseData = House::insHouseData($request,$housevalue,$fileName); 
-		}
-		if($insHouseData) {
-			Session::flash('success', 'House Registered Successfully!');
-			Session::flash('type', 'alert-success'); 
+
+			$path = $path."/";
+			if ($request->file_name_temp != '') {
+				// unlink($path."/".$request->file_name_temp);
+			}
+
+			$request->image1->move($path, $fileName);
+		} else if (isset($request->file_name_temp)) {
+			$fileName = $request->file_name_temp;
 		} else {
-			Session::flash('danger', 'House Registered Unsuccessfully!');
-			Session::flash('type', 'alert-danger'); 
+			$fileName = "";
 		}
 
-		Session::flash('houseId', $housevalue->houseId); 
-		Session::flash('houseUserId', Auth::user()->userId); 
-		
+		if(isset($request->editpage)) {
+			$update = House::updateHouseDetails($request,$fileName,$houseCode);
+			if($update) {
+				Session::flash('message', 'Updated Sucessfully!');
+				Session::flash('type', 'alert-success'); 
+			} else {
+				Session::flash('danger', 'Updated Unsucessfully!'); 
+				Session::flash('type', 'alert-danger'); 
+			}
+		} else {
+			$insert = House::insertHouseDetails($request,$fileName,$houseCode);
+			if($insert) {
+				$request->houseId = House::getlatestHouseDetails();
+
+				Session::flash('message', 'Inserted Sucessfully!'); 
+				Session::flash('type', 'alert-success'); 
+			} else {
+				Session::flash('danger', 'Inserted Unsucessfully!'); 
+				Session::flash('type', 'alert-danger'); 
+			}
+		}
+
+		// to addEdit address master table
+		$insOrUpAddr = House::updateOrInsertAddr($request,$houseCode);
+
+		Session::put('houseId', $request->houseId); 
+		Session::put('houseUserId', $request->userId); 
+
 		return Redirect::to('House/view?mainmenu=menu_house&time='.date('YmdHis'));
 	}
 
@@ -213,20 +309,22 @@ class HouseController extends Controller
 	public function uploadImgProcess(Request $request){
 		$mainImgName = House::getMainImgName($request->mainImageId);
 		if (isset($mainImgName[0]->imageName)) {
-			$mainName = $mainImgName[0]->imageName;
+			$mainName = mb_convert_encoding($mainImgName[0]->imageName,'SJIS','AUTO');
 		} else {
 			$mainName =  "";
 		}
 		$subImgName = House::getSubImgName($request->subImageId);
 		if (isset($subImgName[0]->imageName)) {
-			$subName =  $subImgName[0]->imageName; 
+			$subName = mb_convert_encoding($subImgName[0]->imageName,'SJIS','AUTO');
 		} else {
 			$subName =  "";
 		}
 		if ($request->hasFile('imgfile')) {
+			// $filename = $request->image1->getClientOriginalName();
 			$ifile = $_FILES["imgfile"]["name"];
 			$fileType = explode(".",$ifile);
-			$path = iconv('UTF-8', 'SJIS',"../HouseUpload/uploads/".$request->userId."/House/".$request->houseId."/".$mainName."/".$subName);
+			// $path = base_path() . "/public/uploads/".$request->userId."/House/".$request->houseId."/".$mainName."/".$subName;
+			$path = "../AssetsUpload/uploads/".$request->userId."/House/".$request->houseId."/".$mainName."/".$subName;
 			if(!is_dir($path)) {
 				mkdir($path, 0777,true);
 			}
@@ -242,7 +340,7 @@ class HouseController extends Controller
 		}
 		$uploadImg = House::insertHouseImages($request,$fileName);
 		if($uploadImg) {
-			Session::flash('success', 'Uploaded Sucessfully!'); 
+			Session::flash('message', 'Uploaded Sucessfully!'); 
 			Session::flash('type', 'alert-success'); 
 		} else {
 			Session::flash('danger', 'Uploaded Unsucessfully!'); 
@@ -302,7 +400,7 @@ class HouseController extends Controller
 		$housePrevId = House::getHouseMinId($request);
 		$houseNextId = House::getHouseMaxId($request);
 		$houseImgdetails = House::fnGetHouseImgDtls($request);
-		$path = "../HouseUpload/uploads/";
+		$path = "../AssetsUpload/uploads/";
 		if ($request->fileImage == "index") {
 			if(isset($houseImgdetails[0])) {
 				$request->fileImage = $houseImgdetails[0]->mainCategory.$houseImgdetails[0]->subCategory.$houseImgdetails[0]->id;
@@ -346,6 +444,28 @@ class HouseController extends Controller
 									]);
 	}
 
+	/**
+	*
+	* To validate Momo content register 
+	* @author Sastha
+	* @return object to particular view page
+	* Created At 13/10/2020
+	*/
+	/*public function memoRegValidation(Request $request) {
+		$commonrules = array();
+		$commonrules = array(
+			'memoContent' => 'required',
+		);
+		$rules = $commonrules;
+		$validator = Validator::make($request->all(), $rules);
+		if ($validator->fails()) {
+			return response()->json($validator->messages(), 200);exit;
+		} else {
+			$success = true;
+			echo json_encode($success);
+		}
+	}*/
+
 	/**  
 	*  House Memo Insert Details
 	*  @author Sastha 
@@ -360,7 +480,7 @@ class HouseController extends Controller
 		// to addEdit address master table
 		$updateMemo = House::updateMemo($request);
 		if($updateMemo) {
-			Session::flash('success', 'Memo Updated Sucessfully!'); 
+			Session::flash('message', 'Memo Updated Sucessfully!'); 
 			Session::flash('type', 'alert-success'); 
 		} else {
 			Session::flash('danger', 'Memo Updated Unsucessfully!'); 

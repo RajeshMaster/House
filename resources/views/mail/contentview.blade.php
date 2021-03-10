@@ -19,17 +19,20 @@
 		<div class="col-xs-12 mt10" align="center">
 			<span class="alert-danger">{{ session('danger') }}</span>
 		</div>
-	@elseif (session('success'))
+	@elseif (session('message'))
 		<div class="col-xs-12 mt10" align="center">
-			<span class="alert-success">{{ session('success') }}</span>
+			<span class="alert-success">{{ session('message') }}</span>
 		</div>
 	@endif
-	@php Session::forget('success'); @endphp
-	@php Session::forget('danger'); @endphp
 	<div class="col-xs-12 pull-left mt10 mb10">
 		<a href="javascript:fnback();" class="button button-blue textDecNone" 
 			style="text-decoration: none !important;">
 			<span class="fa fa-arrow-left"></span> {{ trans('messages.lbl_back') }}
+		</a>
+		<a href="javascript:gotoeditpage('{{ $contentview[0]->mailId }}');" 
+			class="button button-orange textDecNone"
+			style="text-decoration: none !important;">
+			<span class="fa fa-edit"></span> {{ trans('messages.lbl_edit') }}
 		</a>
 	</div>
 	{{ Form::open(array('name'=>'mailcontentView',
@@ -40,7 +43,7 @@
 	{{ Form::hidden('plimit', $request->plimit , array('id' => 'plimit')) }}
 	{{ Form::hidden('page', $request->page , array('id' => 'page')) }}
 	{{ Form::hidden('filvalhdn', $request->filvalhdn , array('id' => 'filvalhdn')) }}
-	<fieldset class="mt5 mb5">
+	<fieldset class="mt2">
 		<div class="col-xs-12">
 			<div class="col-xs-9 mt10">
 				<div class="col-xs-4 tar lb">

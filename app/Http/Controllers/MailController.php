@@ -57,7 +57,7 @@ class MailController extends Controller {
 	*/
 	public function mailview(Request $request) {
 		if ($request->mailid =="") {
-			return Redirect::to('Mail/index?mainmenu=menu_mailstatus&time='.date('YmdHis'));
+			return Redirect::to('Mail/index?menuid=menu_mail&time='.date('YmdHis'));
 		}
 		$mailView = Mail::getMailview($request);
 		return view('mail.mailView',['request' => $request,
@@ -109,12 +109,12 @@ class MailController extends Controller {
 						'mailName' =>trans('messages.lbl_mailname'),];
 		$mailcontent = Mail::getMailcontent($request);
 		return view('mail.contentindex' ,compact('request',
-												'mailcontent',
-												'sortarray', 
-												'disabledall',
-												'disableduse',
-												'disablednotuse',
-												'contenttotal'));
+											'mailcontent',
+											'sortarray', 
+											'disabledall',
+											'disableduse',
+											'disablednotuse',
+											'contenttotal'));
 	}
 
 	/**
@@ -136,22 +136,76 @@ class MailController extends Controller {
 	* To view Mail content register
 	* @author Sastha
 	* @return object to particular view page
-	* Created At 11/12/2020
+	* Created At 26/08/2020
 	*/
-	public function mailregister(Request $request) {
-		$mailconarray = json_decode(file_get_contents(base_path() . '/public/json/mailcontentdata.json'));
+	public function mailContentreg(Request $request) {
+		$mailid = $request->mailid;
+		$mailDetails = "";
+		if (!isset($request->mailid)) {
+			return Redirect::to('Mail/mailcontentview?mainmenu=menu_mail&time='.date('YmdHis'));
+		}
+		if(!empty($mailid)){ 
+			$mailDetails = Mail::getMailcontentindb($request,$mailid);
+		}
+		return view('mail.contentaddedit',compact('request',
+												'mailDetails'));
+	}
 
-		foreach ($mailconarray as $mailconkey => $mailvalue) {
-			$insMailconData = Mail::insMailconData($request,$mailvalue); 
+	/**
+	*
+	* To validate Mail content register 
+	* @author Sastha
+	* @return object to particular view page
+	* Created At 26/08/2020
+	*/
+	public function mailregvalidation(Request $request) {
+		$commonrules=array();
+		$commonrules = array(
+			'mailname' => 'required',
+			'mailSubject'=>'required',
+			'mailheader'=>'required',
+			'mailContent'=>'required',
+			// 'mailsignature'=>'required',
+		);
+		$rules = $commonrules;
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json($validator->messages(), 200);exit;
+        } else {
+            $success = true;
+            echo json_encode($success);
+        }
+	}
+
+	/**
+	*
+	* To register Mail content 
+	* @author Sastha
+	* @return object to particular view page
+	* Created At 25/08/2020
+	*/
+	public function mailcontentregprocess(Request $request) {
+		$mailid = $request->mailid;
+		$newmailId = "MAIL0001";
+		$generateUserId = Mail::getcount();
+		if (!empty($generateUserId)) {
+  			$newmailId = $generateUserId[0]->newmailId;
+  		}
+  		if(!empty($mailid)){
+  			$mailContentedit = Mail::updMailcontent($request,$mailid);
+  			if ($mailContentedit) {
+				Session::flash('message', 'Updated Sucessfully!'); 
+				Session::flash('type', 'alert-success'); 
+			}
+  			Session::flash('mailid', $request->mailid);
+  		}else{ 
+			$mailContentreg = Mail::insMailcontent($request,$newmailId);
+			if ($mailContentreg) {
+				Session::flash('message', 'Registered Successfully!'); 
+				Session::flash('type', 'alert-success'); 
+			}
+			Session::flash('mailid', $newmailId);
 		}
-		if($insMailconData) {
-			Session::flash('success', 'Mailcontent Registered Successfully!');
-			Session::flash('type', 'alert-success'); 
-		} else {
-			Session::flash('danger', 'Mailcontent Registered Unsuccessfully!');
-			Session::flash('type', 'alert-danger'); 
-		}
-		Session::flash('mailid', $mailvalue->mailId);
 		return Redirect::to('Mail/mailcontentview?mainmenu=menu_mail&time='.date('YmdHis'));
 	}
 
@@ -171,6 +225,8 @@ class MailController extends Controller {
 			return Redirect::to('Mail/mailcontent?mainmenu=menu_mail&time='.date('YmdHis'));
 		}
 		$contentview = Mail::getMailcontentview($request);
-		return view('mail.contentview' ,compact('request','contentview'));
+		return view('mail.contentview' ,compact('request',
+											'contentview'
+											));
 	}
 }

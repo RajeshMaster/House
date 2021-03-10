@@ -46,6 +46,9 @@
 		<div class="col-xs-12 mt5 mb5 mwhead" style="padding: 0px !important;">
 			<div class="col-xs-12 pull-left mt10 mb10" style="padding: 0px !important;">
 			@if($request->mainmenu == "menu_user")
+				<button type="button" onclick="javascript:useredit('edit','{{ $profileview[0]->id }}');" class="button button-orange pull-left textDecNone" style="">
+					<span class="fa fa-edit"></span> {{ trans('messages.lbl_edit')}}
+				</button>
 			@else
 				<a href="javascript:fnredirectback();" class="button button-blue textDecNone">
 					<span class="fa fa-arrow-left"></span> {{ trans('messages.lbl_back') }}

@@ -16,14 +16,14 @@ class Mail extends Model {
 	* 
 	*/
 	public static function getMailstatus($request) {
-		$sql = DB::TABLE('hms_mailstatus')
-						->SELECT('hms_mailstatus.id', 'hms_mailstatus.userId',
-								'hms_mailstatus.toMail', 'hms_mailstatus.subject',
-								'hms_mailstatus.createdDateTime','hms_users.lastName',
-								'hms_mailstatus.createdBy')
-						->LEFTJOIN('hms_users','hms_mailstatus.userId','=','hms_users.userId')
-						->WHERE('hms_mailstatus.delFlg',0)
-						->orderBy('hms_mailstatus.createdDateTime','DESC')
+		$sql = DB::TABLE('ams_mailstatus')
+						->SELECT('ams_mailstatus.id', 'ams_mailstatus.userId',
+								'ams_mailstatus.toMail', 'ams_mailstatus.subject',
+								'ams_mailstatus.createdDateTime','ams_users.lastName',
+								'ams_mailstatus.createdBy')
+						->LEFTJOIN('ams_users','ams_mailstatus.userId','=','ams_users.userId')
+						->WHERE('ams_mailstatus.delFlg',0)
+						->orderBy('ams_mailstatus.createdDateTime','DESC')
 						->paginate($request->plimit);
 		return $sql;
 	}
@@ -36,11 +36,11 @@ class Mail extends Model {
 	* 
 	*/
 	public static function getMailview($request){
-		$sql = DB::TABLE('hms_mailstatus AS mailstatus')
+		$sql = DB::TABLE('ams_mailstatus AS mailstatus')
 						->SELECT('mailstatus.userId','mailstatus.toMail',
 								'mailstatus.subject','mailstatus.createdDateTime',
-								'mailstatus.content','hms_users.lastName')
-						->LEFTJOIN('hms_users','mailstatus.userId','=','hms_users.userId')
+								'mailstatus.content','ams_users.lastName')
+						->LEFTJOIN('ams_users','mailstatus.userId','=','ams_users.userId')
 						->WHERE('mailstatus.delFlg',0)
 						->WHERE('mailstatus.id',$request->mailid)
 						->orderBy('mailstatus.createdDateTime','DESC')
@@ -56,7 +56,7 @@ class Mail extends Model {
 	* 
 	*/
 	public static function getMailcontent($request) {
-		$sql = DB::TABLE('hms_mailcontent')
+		$sql = DB::TABLE('ams_mailcontent')
 				->SELECT('mailId', 'mailName','subject','delFlg');
 				if ($request->filvalhdn == 2) {
 						$sql = $sql->where(function($joincont) use ($request) {
@@ -88,9 +88,9 @@ class Mail extends Model {
 	* 
 	*/
 	public static function fnupdatedelflg($request) {
-		$sql = DB::TABLE('hms_mailcontent')
-				->WHERE('hms_mailcontent.mailId', $request->mailid)
-				->UPDATE(['hms_mailcontent.delFlg' => $request->delflg]);
+		$sql = DB::TABLE('ams_mailcontent')
+				->WHERE('ams_mailcontent.mailId', $request->mailid)
+				->UPDATE(['ams_mailcontent.delFlg' => $request->delflg]);
 		return $sql;
 	}
 
@@ -102,8 +102,8 @@ class Mail extends Model {
 	* 
 	*/
 	public static function getcount(){
-		   $query = DB::table('hms_mailcontent')
-				->select('mailId',DB::RAW("IF(mailId=(SELECT mailId FROM hms_mailcontent
+		   $query = DB::table('ams_mailcontent')
+				->select('mailId',DB::RAW("IF(mailId=(SELECT mailId FROM ams_mailcontent
 						ORDER BY id DESC LIMIT 1), CONCAT('MAIL', LPAD(SUBSTRING(mailId,5, 8)+1, 4, 0)),mailId) AS newmailId"))
 				->orderby('mailId','DESC')
 				->limit(1)
@@ -116,26 +116,23 @@ class Mail extends Model {
 	*
 	* To Insert Mail content
 	* @author Sastha
-	* Created At 11/12/2020
+	* Created At 25/08/2020
 	* 
 	*/
-	public static function insMailconData($request,$mailvalue){
-		$sql = 	DB::table('hms_mailcontent')
-					->updateOrInsert([
-							'mailId' => $mailvalue->mailId
-						],
-						[ 
-							'mailId' => $mailvalue->mailId,
-							'mailName' => $mailvalue->mailName,
-							'mailType' => 	1,		
-							'subject' => 	$mailvalue->subject,	
-							'header' =>  $mailvalue->header,
-							'content' => 	$mailvalue->content,
-							'defaultMail' =>  0,
-							'createdBy'	=> 	Session::get('FirstName'),
-							'updatedBy' => 	Session::get('FirstName'),
-							'delFlg' =>  0
-						]);
+	public static function insMailcontent($request,$newmailId){
+		$sql = 	DB::table('ams_mailcontent')
+					->insert([ 'mailId' => $newmailId,
+						'mailName' 		=> $request->mailname,
+						'mailType'		=> 	1,		
+						'subject'		=> 	$request->mailSubject,							
+						'header' 		=>  $request->mailheader,
+						'content' 		=> 	$request->mailContent,
+						'defaultMail' 	=>  0,
+						'createdBy'		=> 	Auth::user()->loginId,
+						'createdDate'	=> date('Y-m-d H:m:s'),
+						'updatedBy' 	=> 	Auth::user()->loginId,
+						'updatedDate' 	=> date('Y-m-d H:m:s'),
+						'delFlg' 		=>  0]);
 		return $sql;
 	}
 
@@ -149,17 +146,35 @@ class Mail extends Model {
 	*/
 	public static function getMailcontentindb($request,$mailid) {
 		DB::setFetchMode(\PDO::FETCH_ASSOC);
-		$mailDetails = DB::TABLE('hms_mailcontent')
-						->SELECT('hms_mailcontent.id',
-								'hms_mailcontent.mailId As mailId',
-								'hms_mailcontent.mailName AS mailname',
-								'hms_mailcontent.subject AS mailSubject',
-								'hms_mailcontent.header AS mailheader',
-								'hms_mailcontent.content AS mailContent')
-						->WHERE('hms_mailcontent.mailId',$mailid)
-						->WHERE('hms_mailcontent.delFlg',0)
+		$mailDetails = DB::TABLE('ams_mailcontent')
+						->SELECT('ams_mailcontent.id',
+								'ams_mailcontent.mailId As mailId',
+								'ams_mailcontent.mailName AS mailname',
+								'ams_mailcontent.subject AS mailSubject',
+								'ams_mailcontent.header AS mailheader',
+								'ams_mailcontent.content AS mailContent')
+						->WHERE('ams_mailcontent.mailId',$mailid)
+						->WHERE('ams_mailcontent.delFlg',0)
 						->GET();
 		return $mailDetails[0];
+	}
+
+	/**
+	*
+	* To Update the mailcontent information
+	* @author Sastha
+	* Created At 25/08/2020
+	* 
+	*/
+	public static function updMailcontent($request,$mailid) {
+		$mailupdate = DB::TABLE('ams_mailcontent')
+							->WHERE('mailId',$request->mailid)
+							->update(['mailName' => $request->mailname,
+								'subject' => $request->mailSubject,
+								'header' => $request->mailheader,
+								'content' => $request->mailContent,
+								'updatedDate' => date('Y-m-d H:i:s')]);
+						  return $mailupdate;
 	}
 
 	/**
@@ -170,7 +185,7 @@ class Mail extends Model {
 	* 
 	*/
 	public static function getMailcontentview($request) {
-		$sql = DB::TABLE('hms_mailcontent AS mailcontent')
+		$sql = DB::TABLE('ams_mailcontent AS mailcontent')
 				->SELECT('mailcontent.mailId', 'mailcontent.mailName',
 						'mailcontent.mailType','mailcontent.subject',
 						'mailcontent.header','mailcontent.content','mailcontent.delFlg')

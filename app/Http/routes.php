@@ -16,7 +16,6 @@ Route::group(['prefix'=>'/'], function() {
 // LOGIN PAGE
 Route::get('login', 'LoginController@index');
 
-
 // LOGIN PROCESS
 Route::post('login', 'LoginController@authenticate');
 Route::get('Login/forgetpassword', 'Auth\PasswordController@showLinkRequestForm');
@@ -55,7 +54,8 @@ Route::group(['prefix'=>'House', 'middleware' => 'auth'], function() {
 	Route::get('changelanguage','AjaxController@index');
 	Route::any('index', 'HouseController@index');
 	Route::any('view', 'HouseController@view');
-	Route::any('houseRegister', 'HouseController@houseRegister');
+	Route::any('addEdit', 'HouseController@addEdit');
+	Route::any('addeditprocess', 'HouseController@addeditprocess');
 	Route::any('getBuildingName', 'HouseController@getBuildingName');
 	Route::any('uploadImgPopup', 'HouseController@uploadImgPopup');
 	Route::any('subImageId_ajax', 'HouseController@subImageId_ajax');
@@ -88,7 +88,9 @@ Route::group(['prefix'=>'Mail', 'middleware' => 'auth'], function() {
 	Route::any('mailview', 'MailController@mailview');
 	Route::any('mailcontent', 'MailController@mailcontent');
 	Route::any('mailcontentflg', 'MailController@mailcontentflg');
-	Route::get('mailregister', 'MailController@mailregister');
+	Route::any('mailContentreg', 'MailController@mailContentreg');
+	Route::any('mailregvalidation', 'MailController@mailregvalidation');
+	Route::any('mailcontentregprocess', 'MailController@mailcontentregprocess');
 	Route::any('mailcontentview', 'MailController@mailcontentview');
 });
 

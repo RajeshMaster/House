@@ -78,20 +78,13 @@
 		<!-- LOGIN FORM -->
 		<div class="user">
 			<div class="form-wrap">
-				@if(Session::has('success'))
+				@if(Session::has('message'))
 					<div class="col-xs-12" align="center">
 						<span class="{{ Session::get('alert', Session::get('type') ) }}">
-						{{ session('success') }}</span>
+						{{ session('message') }}</span>
 					</div>
 				@endif
-				@php Session::forget('success'); @endphp
-				@if(Session::has('danger'))
-					<div class="col-xs-12" align="center">
-						<span class="{{ Session::get('alert', Session::get('type') ) }}">
-						{{ session('danger') }}</span>
-					</div>
-				@endif
-				@php Session::forget('danger'); @endphp
+				@php Session::forget('message'); @endphp
 				<!-- TABS -->
 				<div class="tabs">
 					<h3 class="login-tab"><span>Login<span></h3>
@@ -150,7 +143,6 @@
 </div>
 <script>
 	/* LOGIN - MAIN.JS - dp 2017 */
-
 	// LOGIN TABS
 	$(function() {
 		var tab = $('.tabs h3 a');
@@ -163,7 +155,6 @@
 			$(tab_content).addClass('active');
 		});
 	});
-
 	// SLIDESHOW
 	$(function() {
 		$('#slideshow > div:gt(0)').hide();
@@ -176,7 +167,6 @@
 			.appendTo('#slideshow');
 		}, 3850);
 	});
-
 	// CUSTOM JQUERY FUNCTION FOR SWAPPING CLASSES
 	(function($) {
 		'use strict';
@@ -185,7 +175,6 @@
 			return this;
 		};
 	}(jQuery));
-
 	// SHOW/HIDE PANEL ROUTINE (needs better methods)
 	// I'll optimize when time permits.
 	$(function() {
@@ -225,7 +214,6 @@
 			}
 		});
 	});
-
 	// DISPLAY MSSG
 	$(function() {
 		$('.recovery .button').on('click', function(event) {
@@ -239,13 +227,11 @@
 			}, 2500);
 		});
 	});
-
 	// FOR After Logout Not go back...
 	var e = location.pathname.split("/").pop();
 	history.pushState(null, null, e);
 	window.addEventListener('popstate', function(event) {
 		history.pushState(null, null, e);
 	});
-	
 </script>
 @endsection

@@ -22,10 +22,7 @@
 							</tr>
 							<tr>
 								<td colspan="2" style="padding:20px 20px 0 20px;color:#5a5a5a;line-height:22px;font-family:Calibri;font-size:14px" bgcolor="#FFFFFF">
-									@if(isset($mailcontent['name']))
-										<p>Dear &nbsp;{{ $mailcontent['name'] }}</p>
-										{!! nl2br(e($mailcontent['content'])) !!}
-									@endif
+									<p>Dear &nbsp;{{ $mailcontent['name'] }}</p>{!! nl2br(e($mailcontent['content'])) !!}
 								</td>
 							</tr>
 							<tr>

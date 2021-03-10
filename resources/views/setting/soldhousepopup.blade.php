@@ -372,7 +372,7 @@
 							@foreach($relation as $key => $value)
 
 								@php
-									$src = "../HouseUpload/uploads/".$value['userId']."/House/".$value['houseId']."/".$value['image1'];
+									$src = "public/uploads/".$value['userId']."/House/".$value['houseId']."/".$value['image1'];
 								@endphp
 
 								<tr>

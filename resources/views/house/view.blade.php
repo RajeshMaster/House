@@ -49,17 +49,21 @@
 		<div class="col-xs-12 mt10" align="center">
 			<span class="alert-danger">{{ session('danger') }}</span>
 		</div>
-	@elseif (session('success'))
+	@elseif (session('message'))
 		<div class="col-xs-12 mt10" align="center">
-			<span class="alert-success">{{ session('success') }}</span>
+			<span class="alert-success">{{ session('message') }}</span>
 		</div>
 	@endif
-	@php Session::forget('success'); @endphp
-	@php Session::forget('danger'); @endphp
+
 	<div class="col-xs-12 pull-left mt20 mb10">
 		<a href="javascript:goToIndex('{{ $request->userId }}');" class="button button-blue textDecNone">
 			<span class="fa fa-arrow-left"></span>
 			{{ trans('messages.lbl_back') }}
+		</a>
+		<a href="javascript:fnEditHouse('{{ $request->houseId }}','{{ $request->userId }}');" 
+			class="button button-orange textDecNone">
+			<span class="fa fa-edit"></span>
+			{{ trans('messages.lbl_edit') }} 
 		</a>
 		<div class="pull-right">
 			<a href="javascript:fnMemoReg();" class="button button-green textDecNone" id="uploadBtn">

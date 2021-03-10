@@ -17,10 +17,10 @@ class Common extends Model {
 	* @author Sastha
 	* @return Object to particular selected value
 	* Created At 2020/08/19
-	* sastha
+	*
 	*/
 	public static function fnGetDataFromOtherTable($userId,$userType) {
-			$userName = DB::TABLE('hms_users')
+			$userName = DB::TABLE('ams_users')
 						->SELECT('lastName AS userName')
 						->WHERE('userId',$userId)
 						->WHERE('userType',$userType)
@@ -33,10 +33,9 @@ class Common extends Model {
 	 *  @author Sastha 
 	 *  @param $request
 	 *  Created At 2020/08/19
-	 * sastha
 	 **/
 	public static function get_mail_content($mailId) {
-		$get_query = DB::TABLE('hms_mailcontent')
+		$get_query = DB::TABLE('ams_mailcontent')
 					->SELECT('subject',
 							 'header',
 							 'content')
@@ -86,11 +85,10 @@ class Common extends Model {
 	*  @author Sastha.
 	*  Created At 2020/08/24
 	**/
-	//sastha
 	public static function fnUpdateLoginLog($request) {
 		DB::beginTransaction();
 		try {
-			$updUserlog = DB::TABLE('hms_login')
+			$updUserlog = DB::TABLE('ams_login')
 					->WHERE('userId', '=', Auth::user()->userId)
 					->update(['loginStatus' => 1]);
 			DB::commit();       
@@ -105,12 +103,11 @@ class Common extends Model {
 	*  @author Sastha  
 	*  Created At 2020/08/24
 	**/
-	//sastha
 	public static function fnUpdateLogoutLog() {
 		 // dd(Session::all());
 		DB::beginTransaction();
 		try {
-			$updUserlog = DB::TABLE('hms_login')
+			$updUserlog = DB::TABLE('ams_login')
 					->WHERE('userId', '=', Auth::user()->userId)
 					->update(['loginStatus' => 0 ]);
 			DB::commit();       
@@ -125,7 +122,6 @@ class Common extends Model {
 	* @author Sastha
 	* @param $userData
 	* Created At 2020/08/24
-	sastha
 	**/
 	public static function fnGetLogin($userData){
 		if (isset($userData['userId'])) {
@@ -136,7 +132,7 @@ class Common extends Model {
 			$userId = "";
 		}
 		
-		$get_query = DB::TABLE('hms_login')
+		$get_query = DB::TABLE('ams_login')
 					->SELECT('verifyFlg','email','userType')
 					->WHERE('userId',$userId)
 					->ORWHERE('email',$userId)
@@ -145,12 +141,40 @@ class Common extends Model {
 	}
 
 	/**
+	* To Get Bank Name
+	* @author Sastha
+	* Created At 2020/08/27
+	**/
+	public static function fnGetBankName(){
+		$query = DB::TABLE('ams_bankname_master')
+					->SELECT('*')
+					->WHERE('delFlg',0)
+					->get();
+		return $query;
+	}
+
+	/**  
+	* To Get Bank Nick Name
+	*  @author Sastha 
+	*  @param $bankId
+	*  Created At 2020/08/27
+	**/
+	public static function fnGetBankNickName($bankId) {
+		$db = DB::connection('mysql');
+		$result = $db->TABLE('ams_bankname_master')
+					->select('*')
+					->WHERE('id', '=', $bankId)
+					->get();
+		return $result;
+	}
+
+	/**
 	* To Get Family Member Name
 	* @author Sastha
 	* Created At 2020/08/27
 	**/
 	public static function fnGetFamilyMembers(){
-		$query = DB::TABLE('hms_family_master')
+		$query = DB::TABLE('ams_family_master')
 					->SELECT('*')
 					->WHERE('delFlg',0)
 					->get();
@@ -163,13 +187,25 @@ class Common extends Model {
 	* Created At 2020/08/27
 	**/
 	public static function fnGetBuildingName(){
-		$query = DB::TABLE('hms_master_buildingname')
+		$query = DB::TABLE('ams_master_buildingname')
 					->SELECT('*')
 					->WHERE('delFlg',0)
 					->get();
 		return $query;
 	}
 
+	/**
+	* To Get Assets Types
+	* @author Sastha
+	* Created At 2020/09/15
+	**/
+	public static function fnGetAssetsTypes(){
+		$query = DB::TABLE('ams_master_assetstypes')
+					->SELECT('*')
+					->WHERE('delFlg',0)
+					->get();
+		return $query;
+	}
 
 	/**
 	* To Get House Address
@@ -177,7 +213,7 @@ class Common extends Model {
 	* Created At 2020/08/27
 	**/
 	public static function fnGetBuildingAdd($buildingId){
-		$query = DB::TABLE('hms_master_buildingname')
+		$query = DB::TABLE('ams_master_buildingname')
 					->SELECT('*')
 					->WHERE('id', '=', $buildingId)
 					->WHERE('delFlg',0)
